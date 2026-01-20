@@ -221,6 +221,52 @@ st.markdown("""
 # ==========================================
 # 3. Helper Functions
 # ==========================================
+import base64
+import re
+
+
+def load_markdown_with_images(file_path):
+    """
+    讀取 Markdown 檔案，並自動將本地圖片路徑轉換為 Base64 編碼，
+    讓 st.markdown 可以直接顯示本地圖片。
+    """
+    if not os.path.exists(file_path):
+        return f"<div style='color:red'>⚠️ File not found: {file_path}</div>"
+
+    with open(file_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 正則表達式：尋找 ![alt](path) 格式的圖片語法
+    # 這裡會捕捉所有 markdown 圖片語法
+    image_pattern = re.compile(r'!\[(.*?)\]\((.*?)\)')
+
+    def replace_image_link(match):
+        alt_text = match.group(1)
+        image_path = match.group(2)
+
+        # 檢查是否為本地路徑 (不包含 http 開頭)
+        if not image_path.startswith('http') and os.path.exists(image_path):
+            try:
+                with open(image_path, "rb") as img_file:
+                    # 讀取圖片並轉為 base64
+                    b64_string = base64.b64encode(img_file.read()).decode()
+                    # 判斷副檔名
+                    ext = image_path.split('.')[-1].lower()
+                    mime_type = f"image/{ext}"
+                    if ext == 'svg': mime_type = "image/svg+xml"
+
+                    # 重新組合成 HTML img 標籤 (這樣更穩)
+                    # 加入 width=100% 讓圖片適應手機和電腦寬度
+                    return f'<img src="data:{mime_type};base64,{b64_string}" alt="{alt_text}" style="width:100%; border-radius:10px; margin: 10px 0;">'
+            except Exception as e:
+                return f"⚠️ Image Load Error: {str(e)}"
+
+        # 如果是網羅連結或檔案找不到，保持原樣
+        return match.group(0)
+
+    # 執行替換
+    enhanced_content = image_pattern.sub(replace_image_link, content)
+    return enhanced_content
 
 def load_weekly_analysis():
     file_path = os.path.join("WeeklyContent", "latest_analysis.md")
@@ -907,80 +953,81 @@ elif target_page == "Education":
     st.title("🎓 Quant Academy")
     st.caption("Institutional Trading Knowledge & Strategies")
 
-    # 1. 定義文章清單 (這裡可以做成一個字典，包含標題、檔案名、簡介)
-    # 建議：檔案名用英文方便讀取，Display Name 用中文
+    # 1. 定義文章清單
+    # 【重要修正】Keys (例如 "stock_dna", "bull_call") 必須唯一，不能重複！
     articles = {
-        "stock_dna_intro": {
+        "stock_dna": {
             "title": "獨家工具：Stock DNA 因子分析儀說明書",
             "file": "1_stock_dna_guide.md",
             "icon": "🧬",
             "desc": "如何使用機構級工具拆解持倉風險與屬性。"
         },
-        "Options Play": {
+        # --- 期權系列 (Options Play) ---
+        "bull_call": {
             "title": "期權教學：Bull Call Spread 實戰詳解",
             "file": "2_bull_call_spread.md",
-            "icon": "🛡🐂",
+            "icon": "🐂",  # 使用牛圖標代表 Bull
             "desc": "看對市卻輸錢？學會這個對沖策略，降低成本抗 Theta"
         },
-        # 在此加入更多文章...
+        "naked_long": {
+            "title": "期權教學：Naked Long 的時間博弈",
+            "file": "3_naked_long_strategy.md",
+            "icon": "⏳",  # 使用沙漏代表時間 Theta
+            "desc": "為什麼橫盤不要買 Weekly？Python 數據回測告訴你真相。"
+        }
     }
+
+    # 準備選單需要的標題列表和圖標列表
+    # 我們將使用 "Title" 作為選單顯示的文字，而不是 Key
+    options_titles = [data["title"] for data in articles.values()]
+    options_icons = [data["icon"] for data in articles.values()]
 
     # 2. 建立兩欄佈局：左邊是文章列表，右邊是內容閱讀區
     col_list, col_content = st.columns([1, 2.5], gap="large")
 
     with col_list:
         st.markdown("### 📚 Article List")
-        # 讓用戶選擇文章
-        selected_article_key = option_menu(
+
+        # 【修正邏輯】移除 st.radio，直接使用 option_menu 的回傳值
+        selected_title = option_menu(
             menu_title=None,
-            options=list(articles.keys()),  # 這裡是用 key
-            # 這裡我們需要一個小技巧來顯示中文標題，option_menu 默認顯示 list 的內容
-            # 為了簡單，我們可以用 st.radio 或自定義按鈕，但為了漂亮，我們用 selectbox 配合 format_func
+            options=options_titles,  # 顯示中文標題
+            icons=options_icons,  # 顯示對應圖標
             default_index=0,
             orientation="vertical",
             styles={
-                "container": {"background-color": "rgba(255,255,255,0.05)"},
-                "nav-link": {"font-size": "14px", "margin": "5px"},
-                "nav-link-selected": {"background-color": "#2563EB"}
+                "container": {"background-color": "rgba(255,255,255,0.05)", "padding": "10px"},
+                "nav-link": {"font-size": "14px", "margin": "5px", "text-align": "left"},
+                "nav-link-selected": {"background-color": "#2563EB"},
+                "icon": {"font-size": "18px"}
             }
         )
 
-        # 上面的 option_menu 如果顯示 key 會很醜，我們改用更直觀的 st.radio 或按鈕群組
-        # 或者使用簡單的 selectbox (更適合手機端)
-        st.info("👆 Select a topic from the menu above (Displaying Keys currently)")
-
-        # --- 改進版選單 (推薦) ---
-        choice = st.radio(
-            "Select Topic:",
-            options=list(articles.keys()),
-            format_func=lambda x: articles[x]["title"]  # 這樣顯示的就是中文標題
-        )
-
     with col_content:
-        # 獲取選中文章的資訊
-        current_article = articles[choice]
-        file_path = os.path.join("Education", current_article["file"])
+        # 【反向查找】根據選中的 Title 找回對應的 Article 資料
+        # 這是最簡單的寫法，確保選單選什麼，內容就出什麼
+        current_article = next((item for item in articles.values() if item["title"] == selected_title), None)
 
-        # 顯示標題頭
-        st.markdown(f"""
-        <div style="background: rgba(37, 99, 235, 0.1); padding: 20px; border-radius: 10px; border-left: 5px solid #2563EB; margin-bottom: 20px;">
-            <h2 style="margin:0; color: white;">{current_article['icon']} {current_article['title']}</h2>
-            <p style="margin-top:5px; color: #94a3b8;">{current_article['desc']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+        if current_article:
+            file_path = os.path.join("Education", current_article["file"])
 
-        # 讀取並顯示內容
-        if os.path.exists(file_path):
-            with open(file_path, "r", encoding="utf-8") as f:
-                content = f.read()
-                st.markdown(content, unsafe_allow_html=True)
+            # 顯示漂亮的標題頭
+            st.markdown(f"""
+            <div style="background: rgba(37, 99, 235, 0.1); padding: 20px; border-radius: 10px; border-left: 5px solid #2563EB; margin-bottom: 20px;">
+                <h2 style="margin:0; color: white;">{current_article['icon']} {current_article['title']}</h2>
+                <p style="margin-top:5px; color: #94a3b8;">{current_article['desc']}</p>
+            </div>
+            """, unsafe_allow_html=True)
 
-            # 在文章底部加入 Call To Action (轉化付費)
+            # 使用 Base64 Loader 讀取內容
+            content = load_markdown_with_images(file_path)
+            st.markdown(content, unsafe_allow_html=True)
+
+            # CTA
             st.divider()
             st.success("💡 喜歡這篇深度分析？ 加入 VIP 會員解鎖實戰交易數據與工具。")
         else:
-            st.error(f"⚠️ Article file not found: {file_path}")
-            st.info("Please create the 'Education' folder and add .md files.")
+            st.error("Error loading article.")
 
 # [PAGE] Membership (Sales Page)
 elif target_page == "💎 Membership":
