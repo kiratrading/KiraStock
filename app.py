@@ -350,11 +350,11 @@ with st.sidebar:
         menu_title="Navigation",
         options=[
             "Home", "Market Intelligence", "Stock", "Option",
-            "Future", "My Portfolio", "MT5 EA", "Resources", "💎 Membership"
+            "Future", "My Portfolio", "MT5 EA", "Education", "Resources", "Membership"
         ],
         icons=[
             "house", "globe", "search", "layers",
-            "graph-up-arrow", "briefcase", "robot", "collection", "gem"
+            "graph-up-arrow", "briefcase", "robot", "mortarboard", "collection", "gem"
         ],
         menu_icon="compass",
         default_index=0,
@@ -901,6 +901,86 @@ elif target_page == "Resources":
     else:
         st.warning("⚠️ Resources file not found.")
         st.info(f"Please ensure `{html_path}` exists.")
+
+# [PAGE] Education Hub
+elif target_page == "Education":
+    st.title("🎓 Quant Academy")
+    st.caption("Institutional Trading Knowledge & Strategies")
+
+    # 1. 定義文章清單 (這裡可以做成一個字典，包含標題、檔案名、簡介)
+    # 建議：檔案名用英文方便讀取，Display Name 用中文
+    articles = {
+        "stock_dna_intro": {
+            "title": "獨家工具：Stock DNA 因子分析儀說明書",
+            "file": "1_stock_dna_guide.md",
+            "icon": "🧬",
+            "desc": "如何使用機構級工具拆解持倉風險與屬性。"
+        },
+        "Options Play": {
+            "title": "期權教學：Bull Call Spread 實戰詳解",
+            "file": "2_bull_call_spread.md",
+            "icon": "🛡🐂",
+            "desc": "看對市卻輸錢？學會這個對沖策略，降低成本抗 Theta"
+        },
+        # 在此加入更多文章...
+    }
+
+    # 2. 建立兩欄佈局：左邊是文章列表，右邊是內容閱讀區
+    col_list, col_content = st.columns([1, 2.5], gap="large")
+
+    with col_list:
+        st.markdown("### 📚 Article List")
+        # 讓用戶選擇文章
+        selected_article_key = option_menu(
+            menu_title=None,
+            options=list(articles.keys()),  # 這裡是用 key
+            # 這裡我們需要一個小技巧來顯示中文標題，option_menu 默認顯示 list 的內容
+            # 為了簡單，我們可以用 st.radio 或自定義按鈕，但為了漂亮，我們用 selectbox 配合 format_func
+            default_index=0,
+            orientation="vertical",
+            styles={
+                "container": {"background-color": "rgba(255,255,255,0.05)"},
+                "nav-link": {"font-size": "14px", "margin": "5px"},
+                "nav-link-selected": {"background-color": "#2563EB"}
+            }
+        )
+
+        # 上面的 option_menu 如果顯示 key 會很醜，我們改用更直觀的 st.radio 或按鈕群組
+        # 或者使用簡單的 selectbox (更適合手機端)
+        st.info("👆 Select a topic from the menu above (Displaying Keys currently)")
+
+        # --- 改進版選單 (推薦) ---
+        choice = st.radio(
+            "Select Topic:",
+            options=list(articles.keys()),
+            format_func=lambda x: articles[x]["title"]  # 這樣顯示的就是中文標題
+        )
+
+    with col_content:
+        # 獲取選中文章的資訊
+        current_article = articles[choice]
+        file_path = os.path.join("Education", current_article["file"])
+
+        # 顯示標題頭
+        st.markdown(f"""
+        <div style="background: rgba(37, 99, 235, 0.1); padding: 20px; border-radius: 10px; border-left: 5px solid #2563EB; margin-bottom: 20px;">
+            <h2 style="margin:0; color: white;">{current_article['icon']} {current_article['title']}</h2>
+            <p style="margin-top:5px; color: #94a3b8;">{current_article['desc']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # 讀取並顯示內容
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                st.markdown(content, unsafe_allow_html=True)
+
+            # 在文章底部加入 Call To Action (轉化付費)
+            st.divider()
+            st.success("💡 喜歡這篇深度分析？ 加入 VIP 會員解鎖實戰交易數據與工具。")
+        else:
+            st.error(f"⚠️ Article file not found: {file_path}")
+            st.info("Please create the 'Education' folder and add .md files.")
 
 # [PAGE] Membership (Sales Page)
 elif target_page == "💎 Membership":
