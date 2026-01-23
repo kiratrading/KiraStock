@@ -1007,25 +1007,25 @@ elif target_page == "Education":
     articles = {
         # --- 第一階段：MT5 自動化交易 (Free / Lead Magnet) ---
         "mt5_ea_install": {
-            "title": "第01課 | [EA] 如何將 EA 安裝到 MT5 (免費)",
+            "title": "第01課 | [EA] 如何將 EA 安裝到 MT5",
             "file": "34_mt5_ea_installation.md",
             "icon": "📂",
             "desc": "新手必看！手把手教你將 .ex5 / .mq5 檔案正確放入 MT5 資料夾並啟動自動交易。"
         },
         "ea_manual": {
-            "title": "第02課 | [EA] Paris摩打手 Assistant (免費)",
+            "title": "第02課 | [EA] Paris摩打手 Assistant",
             "file": "4_mt5_ea_manual.md",
             "icon": "🤖",
             "desc": "告別手動算點數，隱形止損與一鍵反手神器。"
         },
         "fate_indicator": {
-            "title": "第03課 | [EA] Fate 趨勢判定反轉系統 (免費)",
+            "title": "第03課 | [EA] Fate 趨勢判定反轉系統",
             "file": "6_paris_fate_indicator_guide.md",
             "icon": "🧭",
             "desc": "整合波動率與動能的機構級圖表系統，自動繪製 TP/SL。"
         },
         "gold_excalibur": {
-            "title": "第04課 | [EA] 黃金自動現金流馬丁策略 (免費)",
+            "title": "第04課 | [EA] 黃金自動現金流馬丁策略",
             "file": "5_paris_gold_excalibur.md",
             "icon": "⚔️",
             "desc": "結合 Fate 趨勢引擎與 ATR 動態網格的機構級黃金策略。"
