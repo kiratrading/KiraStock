@@ -1333,9 +1333,9 @@ elif target_page == "期權策略 Strategy":
         with c2:
             spread_width = st.number_input("Spread Width ($)", value=5, min_value=1, max_value=50)
         with c3:
-            otm_call_pct = st.number_input("Call OTM %", value=1.10, step=0.01, format="%.2f", help="1.10 = 10% OTM")
+            otm_call_pct = st.number_input("Call OTM %", value=1.03, step=0.01, format="%.2f", help="1.10 = 10% OTM")
         with c4:
-            itm_put_pct = st.number_input("Put ITM %", value=0.90, step=0.01, format="%.2f", help="0.90 = 10% OTM")
+            itm_put_pct = st.number_input("Put ITM %", value=0.97, step=0.01, format="%.2f", help="0.90 = 10% OTM")
 
         run_btn = st.button("🚀 Generate Strategy Dashboard", type="primary", use_container_width=True)
 
