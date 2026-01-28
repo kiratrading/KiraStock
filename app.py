@@ -506,12 +506,31 @@ with st.sidebar:
         st.caption("STOCK RESEARCH")
         target_page = handle_submenu(
             "sub_stock",
-            ["Earnings", "Stock DNA", "Thematic Basket", "ETF Smart Money", "Insider Trading",
-             "Short Squeeze", "Volatility Target", "Industry Sector Heatmap", "S&P 500 Heatmap"],
-            ["cash-coin", "radar", "basket", "graph-up-arrow", "people", "lightning-charge", "bullseye",
-             "grid-3x3", "fire"]
-        )
+            [
+                "ETF Smart Money",
+                "Industry Sector Heatmap",
+                "Thematic Basket",
+                "Earnings",
+                "Insider Trading",
+                "Short Squeeze",
+                "Stock DNA",
+                "Volatility Target",
+                "S&P 500 Heatmap"  # 保留此項以免遺失，若不需要可刪除
+            ],
 
+            [
+                "graph-up-arrow",  # ETF Smart Money
+                "grid-3x3",  # Industry Sector Heatmap
+                "basket",  # Thematic Basket
+                "cash-coin",  # Earnings
+                "people",  # Insider Trading
+                "lightning-charge",  # Short Squeeze
+                "radar",  # Stock DNA
+                "bullseye",  # Volatility Target
+                "fire"  # S&P 500 Heatmap
+            ]
+        )
+        
     elif selected_nav == "Future":
         st.caption("FUTURES & TRENDS")
         target_page = handle_submenu(
