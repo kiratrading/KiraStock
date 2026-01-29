@@ -1130,7 +1130,6 @@ if url_main_page == "Legal" and selected_nav == "首頁 Home":
 
 # Updated keys to match HK Style names
 locked_pages = [
-    "實戰持倉 Portfolio",
     "因子模型 Stock DNA",
     "ETF資金流 Smart Money",
     "內部交易 Insider",
@@ -1270,40 +1269,36 @@ elif target_page == "Market Dashboard":
         st.warning("⚠️ No dashboard files found.")
         st.error(f"Error: {filename}")
 
+# [PAGE] Research
 elif target_page == "研究專欄 Research":
     st.title("🦅 Research Paper from Paris")
     st.caption("Institutional Perspectives on Daily Flows")
 
     # 1. 讀取所有 MD 檔
-    # 假設檔名格式為: YYYY-MM-DD_Title.md，這樣 sort 會自然按日期排
     files = sorted(glob.glob(os.path.join("DailyInsights", "*.md")), reverse=True)
 
     if not files:
         st.info("No insights published yet. Stay tuned.")
     else:
         # 2. 顯示邏輯 (Timeline 樣式)
-        for file_path in files:
+        # 【修改點】：加入 enumerate 以獲取 index (i)
+        for i, file_path in enumerate(files):
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            # 簡單解析內容 (假設第一行是標題，第二行是日期，之後是內文)
-            # 你也可以用 regex 做更精細的解析
             lines = content.split('\n')
             title = lines[0].replace('# ', '')
 
-            # 嘗試找日期
             date_display = "Recent"
             body_start_index = 1
-            for i, line in enumerate(lines):
+            for idx, line in enumerate(lines):
                 if "**Date:**" in line:
                     date_display = line.replace("**Date:**", "").strip()
-                    body_start_index = i + 1
+                    body_start_index = idx + 1
                     break
 
             body = "\n".join(lines[body_start_index:])
 
-            # 3. UI 呈現：使用 Expander 或 Styled Container
-            # 這裡用一個帶有日期標籤的卡片風格
             with st.container():
                 col_date, col_text = st.columns([1, 5])
 
@@ -1315,8 +1310,9 @@ elif target_page == "研究專欄 Research":
                     """, unsafe_allow_html=True)
 
                 with col_text:
-                    # 使用 expander 讓畫面保持整潔，標題直接顯示
-                    with st.expander(f"📄 {title}", expanded=False):  # 預設展開最新的
+                    # 【修改點】：只展開第一個 (i == 0)
+                    is_expanded = (i == 0)
+                    with st.expander(f"📄 {title}", expanded=is_expanded):
                         st.markdown(body)
                         st.markdown("---")
 
@@ -1621,23 +1617,55 @@ elif target_page == "實戰持倉 Portfolio":
 
     tab1, tab2 = st.tabs(["📉 Stock Journal", "📊 Option Desk"])
 
+    # 檢查是否已登入 (檢查 Session State)
+    is_vip = st.session_state.get("authentication_status", False)
+
+    # --- Tab 1: Stock Journal (部分公開) ---
     with tab1:
         html_content, filename = get_latest_file_content(path, "trade_record_*.html")
+
         if html_content:
             st.caption(f"📅 Stock Report: {filename}")
-            components.html(html_content, height=1200, scrolling=True)
+
+            if is_vip:
+                # [VIP 模式]：顯示完整高度 + 允許捲動
+                components.html(html_content, height=1200, scrolling=True)
+            else:
+                # [免費模式]：顯示上半部預覽 (高度設小 + 禁止捲動)
+                st.info("👀 Preview Mode: Showing top positions only.")
+                # height=400 且 scrolling=False 確保只能看到頂部
+                components.html(html_content, height=450, scrolling=False)
+
+                # 顯示鎖定遮罩與登入按鈕
+                st.markdown("---")
+                # 這裡調用你的鎖定函數，若未登入會顯示 Login Form
+                check_access_or_show_teaser(
+                    "Stock Journal Full Access",
+                    description="🔒 Sign in to unlock the full trade journal, entry/exit prices, and historical performance."
+                )
         else:
             st.warning("⚠️ Trade Record HTML not found.")
             st.info("Please verify that the GitHub Action has run successfully.")
 
+    # --- Tab 2: Option Desk (維持完全鎖定或根據你的需求調整) ---
     with tab2:
-        html_content_opt, filename_opt = get_latest_file_content(path, "option_record_*.html")
-        if html_content_opt:
-            st.caption(f"📅 Option Report: {filename_opt}")
-            components.html(html_content_opt, height=1200, scrolling=True)
+        # 如果你希望 Option Desk 也是同樣邏輯，可以複製上面的做法
+        # 這裡示範保持原本的全鎖定邏輯 (如果未登入，直接擋住)
+
+        if not is_vip:
+            check_access_or_show_teaser(
+                "Option Desk",
+                description="🔒 VIP Access Only. Real-time option flow analysis and positions."
+            )
         else:
-            st.warning("⚠️ Option Record HTML not found.")
-            st.info("Please verify `option_record_*.html` exists in `Trade` folder.")
+            # VIP 才能看到這部分
+            html_content_opt, filename_opt = get_latest_file_content(path, "option_record_*.html")
+            if html_content_opt:
+                st.caption(f"📅 Option Report: {filename_opt}")
+                components.html(html_content_opt, height=1200, scrolling=True)
+            else:
+                st.warning("⚠️ Option Record HTML not found.")
+                st.info("Please verify `option_record_*.html` exists in `Trade` folder.")
 
 # [PAGE] MT5 EA - Introduction
 elif target_page == "EA 介紹 Introduction":
