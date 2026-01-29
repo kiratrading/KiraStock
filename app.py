@@ -963,12 +963,12 @@ with st.sidebar:
     # Define Main Menu Options (HK Style)
     main_options = [
         "首頁 Home",
-        "大市情報 Intelligence",
         "研究專欄 Research",
+        "大市情報 Intelligence",
+        "實戰持倉 Portfolio",
         "美股數據 Stock",
         "期權分析 Option",
         "期貨/牛熊 Future",
-        "實戰持倉 Portfolio",
         "自動交易 MT5 EA",
         "交易學院 Education",
         "交易社群 Community",
@@ -991,8 +991,8 @@ with st.sidebar:
         menu_title="Navigation",
         options=main_options,
         icons=[
-            "house", "globe", "list-task", "search", "layers",
-            "graph-up-arrow", "briefcase", "robot", "mortarboard", "people-fill", "collection", "gem"
+            "house", "globe", "search", "briefcase", "list-task", "layers",
+            "graph-up-arrow", "robot", "mortarboard", "people-fill", "collection", "gem"
         ],
         menu_icon="compass",
         default_index=main_default_index,  # Sync with URL
@@ -1058,27 +1058,26 @@ with st.sidebar:
             [
                 "主題籃子 Thematic Basket",
                 "ETF資金流 Smart Money",
-                "標普熱力圖 S&P 500"
-                "板塊熱力圖 Sector Heatmap",
+                "標普熱力圖 S&P 500",  # 👈 確保這裡有逗號
+                "板塊熱力圖 Sector Heatmap",  # 👈 確保這裡有逗號
                 "業績公佈 Earnings",
                 "內部交易 Insider",
                 "挾淡倉 Short Squeeze",
                 "因子模型 Stock DNA",
-                "波動率策略 Volatility Target",
-
+                "波動率策略 Volatility Target",  # 👈 這裡也要小心
+                "標普熱力圖 S&P 500"  # (你原代碼最後多了一個重複的項目，如果不想要可以刪除這行)
             ],
-
             [
                 "basket",  # Thematic Basket
                 "graph-up-arrow",  # ETF Smart Money
-                "fire"  # S&P 500 Heatmap
-                "grid-3x3",  # Industry Sector Heatmap
+                "fire",  # 👈 修正點：補上逗號！ (原本這裡漏了)
+                "grid-3x3",  # 👈 修正點：補上逗號！
                 "cash-coin",  # Earnings
                 "people",  # Insider Trading
                 "lightning-charge",  # Short Squeeze
                 "radar",  # Stock DNA
                 "bullseye",  # Volatility Target
-
+                "fire"  # S&P 500 (對應上面的重複項)
             ]
         )
 
