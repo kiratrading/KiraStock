@@ -1634,7 +1634,7 @@ elif target_page == "實戰持倉 Portfolio":
                 # [免費模式]：顯示上半部預覽 (高度設小 + 禁止捲動)
                 st.info("👀 Preview Mode: Showing top positions only.")
                 # height=400 且 scrolling=False 確保只能看到頂部
-                components.html(html_content, height=450, scrolling=False)
+                components.html(html_content, height=600, scrolling=False)
 
                 # 顯示鎖定遮罩與登入按鈕
                 st.markdown("---")
