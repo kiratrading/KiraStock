@@ -1,0 +1,249 @@
+
+    <!DOCTYPE html>
+    <html lang="zh-Hant">
+    <head>
+        <meta charset="UTF-8">
+        <title>CFTC 深度分析報告</title>
+        <style>
+            body { font-family: "Microsoft JhengHei", "Segoe UI", sans-serif; max-width: 950px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; color: #333; }
+            .header { background: linear-gradient(135deg, #005aa7, #fffde4); color: white; padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,90,167,0.2); }
+            .header h1 { margin: 0; font-size: 24px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+            .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; }
+            h2 { color: #005aa7; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; font-size: 18px; }
+            .summary-text { line-height: 1.8; font-size: 15px; text-align: justify; color: #444; }
+
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+            thead tr { background-color: #ecf0f1; color: #2c3e50; }
+            th { padding: 12px; text-align: center; font-weight: 600; }
+            td { padding: 12px; border-bottom: 1px solid #eee; text-align: right; vertical-align: middle; }
+            td:first-child { text-align: left; font-weight: bold; color: #2c3e50; }
+
+            /* 變動顏色 */
+            .change-pos { color: #27ae60; font-weight: bold; }
+            .change-neg { color: #c0392b; font-weight: bold; }
+
+            /* 情緒標籤樣式 */
+            .tag { padding: 4px 8px; border-radius: 6px; font-size: 12px; color: white; display: inline-block; min-width: 60px; text-align: center; font-weight: bold; }
+
+            /* 5層分級顏色 */
+            .tag-extreme-bull { background-color: #e74c3c; box-shadow: 0 2px 4px rgba(231,76,60,0.3); } /* 極度擁擠(多) - 紅色警示 */
+            .tag-bull         { background-color: #2ecc71; } /* 看多 - 綠色 */
+            .tag-neutral      { background-color: #95a5a6; color: #fff; } /* 中性 - 灰色 */
+            .tag-bear         { background-color: #f39c12; } /* 看空 - 橘色 */
+            .tag-extreme-bear { background-color: #2c3e50; box-shadow: 0 2px 4px rgba(44,62,80,0.3); } /* 極度擁擠(空) - 深藍 */
+
+            .category-label { font-size: 11px; color: #999; display: block; margin-top: 2px; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>CFTC 持倉週報：黃金面臨拋售壓力</h1>
+            <p style="margin-top:8px; opacity:0.9; font-size: 14px;">數據日期: 2026-01-27</p>
+        </div>
+
+        <div class="card">
+            <h2>Paris Trader市場深度摘要</h2>
+            <div class="summary-text">
+                在外匯市場 (FX)，本週出現了美元賣盤行為。投機者分別買入 20.4k 歐元、買入 10.9k 日圓、買入 5.8k 英鎊、買入 25.7k 加幣、買入 21.2k 澳幣、賣出 4.0k 墨西哥比索、買入 314 瑞郎。<br><br><br><br>在股權市場中，賣出 18.0k 張 SPX (標普)，買入 8.9k 張 NDX (那指)，買入 4.4k 張 Dow (道瓊)，買入 1.7k 張 Russell (羅素)，VIX 指數顯示有 14.2k 合約被多頭增倉。<br><br><br><br>在商品市場，黃金 淨頭寸週內下跌了 39.4k，白銀 淨頭寸週內下跌了 1.5k，原油 (WTI) 淨頭寸週內上漲了 4.3k，銅 淨頭寸週內下跌了 4.2k。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>各資產詳細持倉數據</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>資產</th>
+                        <th>投機淨持倉</th>
+                        <th>週變動 (口)</th>
+                        <th>Z-Score</th>
+                        <th>市場情緒</th>
+                    </tr>
+                </thead>
+                <tbody>
+    
+            <tr>
+                <td>
+                    黃金
+                    <span class="category-label">Commodities</span>
+                </td>
+                <td>205,396</td>
+                <td class="change-neg">-39,374</td>
+                <td style="font-weight:bold;">-1.31</td>
+                <td style="text-align:center;"><span class="tag tag-bear">看空</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    白銀
+                    <span class="category-label">Commodities</span>
+                </td>
+                <td>23,703</td>
+                <td class="change-neg">-1,511</td>
+                <td style="font-weight:bold;">-1.01</td>
+                <td style="text-align:center;"><span class="tag tag-bear">看空</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    原油 (WTI)
+                    <span class="category-label">Commodities</span>
+                </td>
+                <td>69,444</td>
+                <td class="change-pos">+4,333</td>
+                <td style="font-weight:bold;">0.24</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    銅
+                    <span class="category-label">Commodities</span>
+                </td>
+                <td>48,390</td>
+                <td class="change-neg">-4,185</td>
+                <td style="font-weight:bold;">-1.2</td>
+                <td style="text-align:center;"><span class="tag tag-bear">看空</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    歐元
+                    <span class="category-label">FX</span>
+                </td>
+                <td>132,134</td>
+                <td class="change-pos">+20,439</td>
+                <td style="font-weight:bold;">-0.13</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    日圓
+                    <span class="category-label">FX</span>
+                </td>
+                <td>-33,933</td>
+                <td class="change-pos">+10,896</td>
+                <td style="font-weight:bold;">-0.2</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    英鎊
+                    <span class="category-label">FX</span>
+                </td>
+                <td>-16,162</td>
+                <td class="change-pos">+5,818</td>
+                <td style="font-weight:bold;">1.22</td>
+                <td style="text-align:center;"><span class="tag tag-bull">看多</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    加幣
+                    <span class="category-label">FX</span>
+                </td>
+                <td>-16,046</td>
+                <td class="change-pos">+25,739</td>
+                <td style="font-weight:bold;">1.5</td>
+                <td style="text-align:center;"><span class="tag tag-bull">看多</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    澳幣
+                    <span class="category-label">FX</span>
+                </td>
+                <td>7,146</td>
+                <td class="change-pos">+21,157</td>
+                <td style="font-weight:bold;">1.47</td>
+                <td style="text-align:center;"><span class="tag tag-bull">看多</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    墨西哥比索
+                    <span class="category-label">FX</span>
+                </td>
+                <td>103,114</td>
+                <td class="change-neg">-4,039</td>
+                <td style="font-weight:bold;">-0.9</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    瑞郎
+                    <span class="category-label">FX</span>
+                </td>
+                <td>-42,893</td>
+                <td class="change-pos">+314</td>
+                <td style="font-weight:bold;">-0.31</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    SPX (標普)
+                    <span class="category-label">Equities</span>
+                </td>
+                <td>-99,787</td>
+                <td class="change-neg">-18,011</td>
+                <td style="font-weight:bold;">0.16</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    NDX (那指)
+                    <span class="category-label">Equities</span>
+                </td>
+                <td>28,880</td>
+                <td class="change-pos">+8,905</td>
+                <td style="font-weight:bold;">0.0</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    Dow (道瓊)
+                    <span class="category-label">Equities</span>
+                </td>
+                <td>1,144</td>
+                <td class="change-pos">+4,415</td>
+                <td style="font-weight:bold;">0.16</td>
+                <td style="text-align:center;"><span class="tag tag-neutral">中性</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    Russell (羅素)
+                    <span class="category-label">Equities</span>
+                </td>
+                <td>2,274</td>
+                <td class="change-pos">+1,701</td>
+                <td style="font-weight:bold;">1.06</td>
+                <td style="text-align:center;"><span class="tag tag-bull">看多</span></td>
+            </tr>
+        
+            <tr>
+                <td>
+                    VIX
+                    <span class="category-label">Equities</span>
+                </td>
+                <td>-74,986</td>
+                <td class="change-pos">+14,237</td>
+                <td style="font-weight:bold;">1.46</td>
+                <td style="text-align:center;"><span class="tag tag-bull">看多</span></td>
+            </tr>
+        
+                </tbody>
+            </table>
+            <div style="text-align:center; margin-top:20px; font-size:12px; color:#aaa;">
+                Generated by Algo_Snake | Z-Score Window: 52 Weeks
+            </div>
+        </div>
+    </body>
+    </html>
+    
