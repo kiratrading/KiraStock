@@ -1044,61 +1044,21 @@ with st.sidebar:
 
     # --- Sub-menu Logic (HK Style) ---
     if selected_nav == "大市情報 Intelligence":
-        st.caption("MARKET MODULES")
-        target_page = handle_submenu(
-            "sub_market",
-            # ↓↓↓ 修改這裡：加入 "CFTC 持倉報告 Position" ↓↓↓
-            ["風險指標 Market Risk", "市寬 Market Breadth", "CFTC 持倉報告 Position"],
-            # ↓↓↓ 修改這裡：加入對應 Icon (例如 "bank" 代表機構) ↓↓↓
-            ["activity", "bar-chart-line", "bank"]
-        )
+        # logic: No sidebar submenu. We will handle tabs in the main view.
+        target_page = "大市情報 Intelligence"
 
     elif selected_nav == "美股數據 Stock":
-        st.caption("STOCK RESEARCH")
-        target_page = handle_submenu(
-            "sub_stock",
-            [
-                "主題籃子 Thematic Basket",
-                "ETF資金流 Smart Money",
-                "標普熱力圖 S&P 500",
-                "板塊熱力圖 Sector Heatmap",
-                "技術評分 TA Score",  # <--- [新增這一行]
-                "業績公佈 Earnings",
-                "內部交易 Insider",
-                "挾淡倉 Short Squeeze",
-                "因子模型 Stock DNA",
-                "波動率策略 Volatility Target",
-            ],
-            [
-                "basket",  # Thematic Basket
-                "graph-up-arrow",  # ETF Smart Money
-                "fire",
-                "grid-3x3",
-                "stoplights",  # <--- [新增對應圖標]
-                "cash-coin",  # Earnings
-                "people",  # Insider Trading
-                "lightning-charge",  # Short Squeeze
-                "radar",  # Stock DNA
-                "bullseye",  # Volatility Target
-            ]
-        )
+        # logic: No sidebar submenu. We will handle tabs in the main view.
+        target_page = "美股數據 Stock"
 
     elif selected_nav == "期貨/牛熊 Future":
-        st.caption("FUTURES & TRENDS")
-        target_page = handle_submenu(
-            "sub_future",
-            ["日內波幅 Volatility", "成交分佈 Volume Profile", "牛熊重貨區 CBBC Ladder"],
-            ["bar-chart-steps", "lightning-charge", "distribute-vertical"]
-        )
+        # logic: No sidebar submenu. We will handle tabs in the main view.
+        target_page = "期貨/牛熊 Future"
 
 
     elif selected_nav == "期權分析 Option":
-        st.caption("DERIVATIVES ANALYTICS")
-        target_page = handle_submenu(
-            "sub_option",
-            ["港股期權 HK Option", "美股期權 US Option", "期權策略 Strategy"],  # Added here
-            ["currency-dollar", "globe-asia-australia", "cpu"]  # Added icon
-        )
+        # logic: No sidebar submenu. We will handle tabs in the main view.
+        target_page = "期權分析 Option"
 
     elif selected_nav == "自動交易 MT5 EA":
         st.caption("AUTOMATED TRADING")
@@ -1204,21 +1164,11 @@ if url_main_page == "Legal" and selected_nav == "首頁 Home":
 # 🔒 權限控制與銷售轉化中心
 # ==========================================
 
-# Updated keys to match HK Style names
-locked_pages = [
-    # "實戰持倉 Portfolio",  <-- REMOVED as per request to allow partial access
-    "因子模型 Stock DNA",
-    "ETF資金流 Smart Money",
-    "內部交易 Insider",
-    "挾淡倉 Short Squeeze",
-    "波動率策略 Volatility Target",
-    "美股期權 US Option",
-    "成交分佈 Volume Profile",
-    "期權策略 Strategy",
-    "牛熊重貨區 CBBC Ladder"
-]
+# NOTE: Locked page logic is now handled inside the Tabs of each section.
+# The global check here is kept only for standalone pages if any.
+locked_pages = []
 
-# Updated keys for teaser content
+# Updated keys for teaser content (used inside Tabs)
 teaser_content = {
     "因子模型 Stock DNA": "Discover the hidden factors driving stock prices using Fama-French models. Identify high-quality alpha before the market moves.",
     "ETF資金流 Smart Money": "Track leveraged ETF flows to spot market reversals instantly. Don't fight the trend, ride the institutional wave.",
@@ -1389,266 +1339,220 @@ elif target_page == "研究專欄 Research":
                         st.markdown(body)
                         st.markdown("---")
 
-# [PAGE] Options Strategy Dashboard
-elif target_page == "期權策略 Strategy":
-    st.title("🛠️ Interactive Option Strategy Builder")
-    st.caption("Analyze payoff diagrams for Calls, Puts, Spreads, and Straddles instantly.")
+# [PAGE] Intelligence (Consolidated Tabs)
+elif target_page == "大市情報 Intelligence":
+    st.title("📡 Market Intelligence")
+    st.caption("Risk Metrics, Market Breadth & Positioning")
 
-    # --- 用戶輸入區 ---
-    with st.container():
-        c1, c2, c3, c4 = st.columns([2, 1, 1, 1])
-        with c1:
-            ticker_input = st.text_input("Enter US Ticker", value="NVDA", help="e.g., TSLA, AAPL, NVDA").upper()
-        with c2:
-            spread_width = st.number_input("Spread Width ($)", value=5, min_value=1, max_value=50)
-        with c3:
-            otm_call_pct = st.number_input("Call OTM %", value=1.03, step=0.01, format="%.2f", help="1.10 = 10% OTM")
-        with c4:
-            itm_put_pct = st.number_input("Put ITM %", value=0.97, step=0.01, format="%.2f", help="0.90 = 10% OTM")
+    tab_risk, tab_breadth, tab_cftc = st.tabs([
+        "⚠️ Market Risk",
+        "🌊 Market Breadth",
+        "🐋 CFTC Position"
+    ])
 
-        run_btn = st.button("🚀 Generate Strategy Dashboard", type="primary", use_container_width=True)
-
-    # --- 執行邏輯 ---
-    if run_btn and ticker_input:
-        with st.status(f"Processing {ticker_input}...", expanded=True) as status:
-
-            # Step 1: 檢查/下載 CSV
-            status.write("📂 Checking local data cache...")
-            try:
-                # 這裡呼叫上面定義的 get_local_data
-                df_hist, options_data, data_date = get_local_data(ticker_input)
-
-                if df_hist is None:
-                    status.update(label="Local Data Not Found", state="error")
-                    st.error(f"Data not found in Option/Option. Please run data_updater.py first.")
-                    st.stop()
-
-                status.write(f"✅ Loaded history data ({len(df_hist)} days). Data Date: {data_date}")
-
-                # Step 2: 獲取期權鏈並生成 HTML
-                status.write("🔗 Calculating strategy payoffs...")
-                html_result, msg = generate_strategy_html(ticker_input, spread_width, otm_call_pct, itm_put_pct)
-
-                if html_result:
-                    status.update(label="Dashboard Generated!", state="complete")
-
-                    # 顯示 HTML (使用 components)
-                    st.markdown("---")
-                    components.html(html_result, height=1400, scrolling=True)
-                else:
-                    status.update(label="Generation Failed", state="error")
-                    st.error(msg)
-
-            except Exception as e:
-                st.error(f"System Error: {e}")
-
-# [PAGE] Market Risk
-elif target_page == "風險指標 Market Risk":
-    st.title("⚠️ Market Implied Risk")
-    path = "ImpliedParameters"
-
-    html_content, filename = get_latest_file_content(path)
-
-    if html_content:
-        st.caption(f"Displaying Report: {filename}")
-        fix_style = """
-        <style>
-            body {
-                display: block !important;
-                height: auto !important;
-                min-height: 100vh;
-                padding-top: 50px;
-                background-color: #020617 !important;
-            }
-            .card { margin: 0 auto !important; }
-        </style>
-        """
-        html_content = html_content.replace("<head>", "<head>" + fix_style)
-        components.html(html_content, height=2200, scrolling=True)
-    else:
-        st.warning("⚠️ No risk reports found.")
-        st.info("Please ensure `ImpliedParameters/implied_params_*.html` exists.")
-
-# [PAGE] CFTC Position (新增的頁面)
-elif target_page == "CFTC 持倉報告 Position":
-    st.title("🐋 CFTC Institutional Positioning")
-    st.caption("Commitment of Traders (COT) Report - Smart Money vs Retail")
-
-    # 設定檔案路徑
-    # 建議將生成的 html 放入 MarketDashboard 資料夾
-    # 如果檔案在根目錄，請改為 path = "."
-    path = "MarketDashboard"
-
-    # 讀取檔案
-    html_content, filename = get_latest_file_content(path, "cftc_pro_report*.html")
-
-    if html_content:
-        st.caption(f"📅 Report Date: {filename}")
-        # 設定高度，確保報告能完整顯示
-        components.html(html_content, height=2200, scrolling=True)
-    else:
-        st.warning("⚠️ CFTC Report not found.")
-        st.info(f"Please ensure `cftc_pro_report.html` is located in the `{path}` folder.")
-# [PAGE] Market Breadth
-elif target_page == "市寬 Market Breadth":
-    st.title("🌊 Market Breadth")
-    path = os.path.join("MarketDashboard", "MarketBreadth")
-    html_content, filename = get_latest_file_content(path, "market_breadth_*.html")
-
-    if html_content:
-        st.caption(f"Displaying Report: {filename}")
-        components.html(html_content, height=2200, scrolling=True)
-    else:
-        st.warning("⚠️ Market Breadth report not found.")
-        st.info(f"Please ensure `{path}` contains `market_breadth_*.html` files.")
-
-# [PAGE] Industry Sector Heatmap
-elif target_page == "板塊熱力圖 Sector Heatmap":
-    st.title("🔥 Industry Sector Heatmap")
-    st.caption("Daily Return Heatmap (Last 20 Days)")
-    path = "MarketDashboard"
-    pattern = "sector_etf_heatmap_*.html"
-    html_content, filename = get_latest_file_content(path, pattern)
-
-    if html_content:
-        st.caption(f"Displaying Report: {filename}")
-        components.html(html_content, height=1200, scrolling=True)
-    else:
-        st.warning("⚠️ Sector Heatmap not found.")
-        st.info(f"Please ensure `{path}/{pattern}` exists.")
-
-
-# [PAGE] TA Score Heatmap
-elif target_page == "技術評分 TA Score":
-    st.title("🚦 TA Score Heatmap")
-    st.caption("Technical Analysis Score & Market Cap Filter")
-
-    # Path to Stock folder
-    path = "Stock"
-
-    # Create Tabs for US and HK Markets
-    tab_us, tab_hk = st.tabs(["US Market", "HK Market"])
-
-    # --- Tab 1: US Market ---
-    with tab_us:
-        # Load US Heatmap (TA_score_heatmap_*.html)
-        html_content, filename = get_latest_file_content(path, "TA_score_heatmap_*.html")
-
+    # --- Tab 1: Market Risk ---
+    with tab_risk:
+        st.subheader("Market Implied Risk")
+        path = "ImpliedParameters"
+        html_content, filename = get_latest_file_content(path)
         if html_content:
-            st.caption(f"📅 US Report Date: {filename}")
+            st.caption(f"Displaying Report: {filename}")
+            fix_style = """
+            <style>
+                body {
+                    display: block !important;
+                    height: auto !important;
+                    min-height: 100vh;
+                    padding-top: 50px;
+                    background-color: #020617 !important;
+                }
+                .card { margin: 0 auto !important; }
+            </style>
+            """
+            html_content = html_content.replace("<head>", "<head>" + fix_style)
+            components.html(html_content, height=2200, scrolling=True)
+        else:
+            st.warning("⚠️ No risk reports found.")
+            st.info("Please ensure `ImpliedParameters/implied_params_*.html` exists.")
+
+    # --- Tab 2: Market Breadth ---
+    with tab_breadth:
+        st.subheader("Market Breadth")
+        path = os.path.join("MarketDashboard", "MarketBreadth")
+        html_content, filename = get_latest_file_content(path, "market_breadth_*.html")
+        if html_content:
+            st.caption(f"Displaying Report: {filename}")
+            components.html(html_content, height=2200, scrolling=True)
+        else:
+            st.warning("⚠️ Market Breadth report not found.")
+
+    # --- Tab 3: CFTC Position ---
+    with tab_cftc:
+        st.subheader("CFTC Institutional Positioning")
+        st.caption("Commitment of Traders (COT) Report - Smart Money vs Retail")
+        path = "MarketDashboard"
+        html_content, filename = get_latest_file_content(path, "cftc_pro_report*.html")
+        if html_content:
+            st.caption(f"📅 Report Date: {filename}")
+            components.html(html_content, height=2200, scrolling=True)
+        else:
+            st.warning("⚠️ CFTC Report not found.")
+
+
+# [PAGE] Stock Analytics (Consolidated with Tabs)
+elif target_page == "美股數據 Stock":
+    st.title("🇺🇸 US Stock Market Analytics")
+    st.caption("Institutional Data, Heatmaps & Factor Analysis")
+
+    # Define the Tabs
+    tab_basket, tab_smart, tab_sp500, tab_sector, tab_ta, tab_earn, tab_insider, tab_squeeze, tab_dna, tab_vol = st.tabs(
+        [
+            "🧺 Thematic Basket",
+            "🚀 Smart Money",
+            "🔥 S&P 500",
+            "🗺️ Sector",
+            "🚦 TA Score",
+            "📅 Earnings",
+            "🕴️ Insider",
+            "⚡ Short Squeeze",
+            "🧬 Stock DNA",
+            "📉 Volatility"
+        ])
+
+    # --- Tab 1: Thematic Basket ---
+    with tab_basket:
+        st.subheader("Thematic Basket Analysis")
+        path = "ThematicBasket"
+        html_content, filename = get_latest_file_content(path, "elite_dashboard_*.html")
+        if html_content:
+            st.caption(f"📅 Strategy Report: {filename}")
+            components.html(html_content, height=6000, scrolling=True)
+        else:
+            st.warning("⚠️ No basket reports found.")
+
+    # --- Tab 2: ETF Smart Money (LOCKED) ---
+    with tab_smart:
+        st.subheader("ETF Smart Money Tracker")
+        # Check Access
+        if check_access_or_show_teaser("ETF資金流 Smart Money",
+                                       description="Track leveraged ETF flows to spot market reversals instantly. Don't fight the trend, ride the institutional wave."):
+
+            path = "xETF"
+            html_content, filename = get_latest_file_content(path, "ETF_Smart_Money_Report_*.html")
+            if html_content:
+                st.caption(f"📅 Report Date: {filename}")
+                components.html(html_content, height=2000, scrolling=True)
+            else:
+                st.warning("⚠️ No ETF Smart Money reports found.")
+
+    # --- Tab 3: S&P 500 Heatmap ---
+    with tab_sp500:
+        st.subheader("S&P 500 Performance Heatmap (YTD)")
+        path = "Stock"
+        html_content, filename = get_latest_file_content(path, "sp500_clean_heatmap_*.html")
+        if html_content:
+            st.caption(f"📅 Report Date: {filename}")
+            components.html(html_content, height=1600, scrolling=True)
+        else:
+            st.warning("⚠️ No S&P 500 Heatmap found.")
+
+    # --- Tab 4: Sector Heatmap ---
+    with tab_sector:
+        st.subheader("Industry Sector Heatmap")
+        path = "MarketDashboard"
+        html_content, filename = get_latest_file_content(path, "sector_etf_heatmap_*.html")
+        if html_content:
+            st.caption(f"Displaying Report: {filename}")
             components.html(html_content, height=1200, scrolling=True)
         else:
-            st.warning("⚠️ US TA Score Heatmap not found.")
-            st.info(f"Please run `st_tt.py` (US Mode) to generate the report in `{os.path.abspath(path)}`.")
+            st.warning("⚠️ Sector Heatmap not found.")
 
-    # --- Tab 2: HK Market ---
-    with tab_hk:
-        # Load HK Heatmap (HK_TA_score_heatmap_*.html)
-        html_content_hk, filename_hk = get_latest_file_content(path, "HK_TA_score_heatmap_*.html")
+    # --- Tab 5: TA Score ---
+    with tab_ta:
+        st.subheader("Technical Analysis Score")
+        sub_tab_us, sub_tab_hk = st.tabs(["US Market", "HK Market"])
+        path = "Stock"
 
-        if html_content_hk:
-            st.caption(f"📅 HK Report Date: {filename_hk}")
-            components.html(html_content_hk, height=1200, scrolling=True)
+        with sub_tab_us:
+            html_content, filename = get_latest_file_content(path, "TA_score_heatmap_*.html")
+            if html_content:
+                st.caption(f"📅 US Report Date: {filename}")
+                components.html(html_content, height=1200, scrolling=True)
+            else:
+                st.warning("⚠️ US TA Score Heatmap not found.")
+
+        with sub_tab_hk:
+            html_content_hk, filename_hk = get_latest_file_content(path, "HK_TA_score_heatmap_*.html")
+            if html_content_hk:
+                st.caption(f"📅 HK Report Date: {filename_hk}")
+                components.html(html_content_hk, height=1200, scrolling=True)
+            else:
+                st.warning("⚠️ HK TA Score Heatmap not found.")
+
+    # --- Tab 6: Earnings ---
+    with tab_earn:
+        st.subheader("Earnings Calendar Analysis")
+        path = "Earnings"
+        html_content, filename = get_latest_file_content(path)
+        if html_content:
+            st.caption(f"Displaying Report: {filename}")
+            components.html(html_content, height=2500, scrolling=True)
         else:
-            st.warning("⚠️ HK TA Score Heatmap not found.")
-            st.info(f"Please run `st_tt.py` (HK Mode) to generate the report in `{os.path.abspath(path)}`.")
+            st.warning("⚠️ No earnings reports found.")
 
-# [PAGE] Earnings
-elif target_page == "業績公佈 Earnings":
-    st.title("📅 Earnings Calendar Analysis")
-    path = "Earnings"
-    html_content, filename = get_latest_file_content(path)
+    # --- Tab 7: Insider Trading (LOCKED) ---
+    with tab_insider:
+        st.subheader("Insider Trading Activity")
+        if check_access_or_show_teaser("內部交易 Insider",
+                                       description="See what CEOs and CFOs are doing with their own money. Real-time cluster buying alerts."):
 
-    if html_content:
-        st.caption(f"Displaying Report: {filename}")
-        components.html(html_content, height=2500, scrolling=True)
-    else:
-        st.warning("⚠️ No earnings reports found.")
-        st.info("Please ensure there is an `Earnings` folder in the root directory containing .html files.")
+            path = "Insider"
+            html_content, filename = get_latest_file_content(path, "Insider_Trading_Report_*.html")
+            if html_content:
+                st.caption(f"📅 Report Date: {filename}")
+                components.html(html_content, height=2000, scrolling=True)
+            else:
+                st.warning("⚠️ No Insider Trading reports found.")
 
-# [PAGE] Stock DNA
-elif target_page == "因子模型 Stock DNA":
-    st.title("🧬 Stock Factor DNA")
-    html_content = load_stock_dna_with_injection()
-    if html_content and "HTML not found" not in html_content:
-        components.html(html_content, height=1200, scrolling=True)
-    else:
-        st.error("FamaFrench/index.html not found")
+    # --- Tab 8: Short Squeeze (LOCKED) ---
+    with tab_squeeze:
+        st.subheader("Short Squeeze Scanner")
+        if check_access_or_show_teaser("挾淡倉 Short Squeeze",
+                                       description="Identify the next GME/AMC before it explodes. High short interest + High borrow cost scanner."):
 
-# [PAGE] S&P 500 Heatmap
-elif target_page == "標普熱力圖 S&P 500":
-    st.title("🔥 S&P 500 Performance Heatmap (YTD)")
-    st.caption("Top 50 Best Performers - Daily Returns Tracking")
+            path = "Short_squeeze"
+            html_content, filename = get_latest_file_content(path, "Short_squeeze_*.html")
+            if html_content:
+                st.caption(f"📅 Report Date: {filename}")
+                components.html(html_content, height=2000, scrolling=True)
+            else:
+                st.warning("⚠️ No Short Squeeze reports found.")
 
-    # Assumes the script saves the file into the 'Stock' folder.
-    # If the script runs in the root, change this to path = "."
-    path = "Stock"
+    # --- Tab 9: Stock DNA (LOCKED) ---
+    with tab_dna:
+        st.subheader("Stock Factor DNA")
+        if check_access_or_show_teaser("因子模型 Stock DNA",
+                                       description="Discover the hidden factors driving stock prices using Fama-French models."):
 
-    # Look for files matching the new timestamped pattern
-    html_content, filename = get_latest_file_content(path, "sp500_clean_heatmap_*.html")
+            html_content = load_stock_dna_with_injection()
+            if html_content and "HTML not found" not in html_content:
+                components.html(html_content, height=1200, scrolling=True)
+            else:
+                st.error("FamaFrench/index.html not found")
 
-    if html_content:
-        st.caption(f"📅 Report Date: {filename}")
-        # Height is adjustable depending on how many rows (50 rows needs ~1500px)
-        components.html(html_content, height=1600, scrolling=True)
-    else:
-        st.warning("⚠️ No S&P 500 Heatmap found.")
-        st.info(f"Please run `sp500_ytd_ranking.py` and ensure the output is saved in `{path}` folder.")
+    # --- Tab 10: Volatility Target (LOCKED) ---
+    with tab_vol:
+        st.subheader("Volatility Target Strategy")
+        if check_access_or_show_teaser("波動率策略 Volatility Target",
+                                       description="Access professional-grade volatility control strategies."):
 
-# [PAGE] Thematic Basket
-elif target_page == "主題籃子 Thematic Basket":
-    st.title("🧺 Thematic Basket Analysis")
-    path = "ThematicBasket"
-    html_content, filename = get_latest_file_content(path, "elite_dashboard_*.html")
-
-    if html_content:
-        st.caption(f"📅 Strategy Report: {filename}")
-        components.html(html_content, height=6000, scrolling=True)
-    else:
-        st.warning("⚠️ No basket reports found.")
-        st.info(f"Checking path: {os.path.abspath(path)}")
-
-# [PAGE] ETF Smart Money
-elif target_page == "ETF資金流 Smart Money":
-    st.title("🚀 ETF Smart Money Tracker")
-    st.caption("Tracking Leveraged ETF Relative Volume Spikes")
-    path = "xETF"
-    html_content, filename = get_latest_file_content(path, "ETF_Smart_Money_Report_*.html")
-
-    if html_content:
-        st.caption(f"📅 Report Date: {filename}")
-        components.html(html_content, height=2000, scrolling=True)
-    else:
-        st.warning("⚠️ No ETF Smart Money reports found.")
-        st.info(f"Please ensure `{path}` folder exists and contains `ETF_Smart_Money_Report_*.html` files.")
-
-# [PAGE] Insider Trading
-elif target_page == "內部交易 Insider":
-    st.title("🕴️ Insider Trading Activity")
-    st.caption("Daily Cluster Buys & Significant Insider Transactions")
-    path = "Insider"
-    html_content, filename = get_latest_file_content(path, "Insider_Trading_Report_*.html")
-
-    if html_content:
-        st.caption(f"📅 Report Date: {filename}")
-        components.html(html_content, height=2000, scrolling=True)
-    else:
-        st.warning("⚠️ No Insider Trading reports found.")
-        st.info(f"Please ensure `{path}` folder exists and contains `Insider_Trading_Report_*.html` files.")
-
-# [PAGE] Short Squeeze
-elif target_page == "挾淡倉 Short Squeeze":
-    st.title("⚡ Short Squeeze Scanner")
-    st.caption("Retail Hype & High Short Interest Candidates")
-    path = "Short_squeeze"
-    html_content, filename = get_latest_file_content(path, "Short_squeeze_*.html")
-
-    if html_content:
-        st.caption(f"📅 Report Date: {filename}")
-        components.html(html_content, height=2000, scrolling=True)
-    else:
-        st.warning("⚠️ No Short Squeeze reports found.")
-        st.info(f"Please ensure `{path}` folder exists and contains `Short_squeeze_*.html` files.")
+            path = "VolTarget"
+            html_content, filename = get_latest_file_content(path, "vol_tool_*.html")
+            if html_content:
+                st.caption(f"Displaying Report: {filename}")
+                components.html(html_content, height=1500, scrolling=True)
+            else:
+                st.warning("⚠️ Volatility Tool not found.")
 
 # [PAGE] Reddit Sentiment
 elif target_page == "Reddit Sentiment":
@@ -1662,82 +1566,144 @@ elif target_page == "Reddit Sentiment":
         st.warning("⚠️ No Reddit reports found.")
         st.info(f"Please ensure `{path}` folder exists and contains `reddit_scanner_*.html` files.")
 
-# [PAGE] Volatility Target
-elif target_page == "波動率策略 Volatility Target":
-    st.title("📉 Volatility Target Strategy")
-    path = "VolTarget"
-    html_content, filename = get_latest_file_content(path, "vol_tool_*.html")
+# [PAGE] Options (Consolidated Tabs)
+elif target_page == "期權分析 Option":
+    st.title("🎯 Options Analytics")
+    st.caption("Flows, Heatmaps & Strategy Builder")
 
-    if html_content:
-        st.caption(f"Displaying Report: {filename}")
-        components.html(html_content, height=1500, scrolling=True)
-    else:
-        st.warning("⚠️ Volatility Tool not found.")
-        st.info("Please ensure `vol_tool_*.html` exists in the `VolTarget` folder.")
+    tab_hk, tab_us, tab_strat = st.tabs([
+        "🇭🇰 HK Option",
+        "🇺🇸 US Option",
+        "🛠️ Strategy"
+    ])
 
-# [PAGE] US Option
-elif target_page == "美股期權 US Option":
-    st.title("US Option Strike Analysis")
-    st.caption("Tracking Unusual Options Activity & Gamma Levels")
-    path = "Option"
-    search_pattern = "option_strike_*.html"
-    html_content, filename = get_latest_file_content(path, search_pattern)
+    # --- Tab 1: HK Option ---
+    with tab_hk:
+        st.subheader("HK Option Market Analysis")
+        path = "Option"
+        search_pattern = "HK_Option_Market_*.html"
+        html_content, filename = get_latest_file_content(path, search_pattern)
+        if html_content:
+            st.caption(f"📅 Report Date: {filename}")
+            components.html(html_content, height=2000, scrolling=True)
+        else:
+            st.warning("⚠️ No HK Option reports found.")
 
-    if html_content:
-        st.caption(f"📅 Report Date: {filename}")
-        components.html(html_content, height=2000, scrolling=True)
-    else:
-        st.warning("⚠️ No US Option reports found.")
-        st.info(f"Please ensure `{path}` folder exists and contains `{search_pattern}` files.")
+    # --- Tab 2: US Option (LOCKED) ---
+    with tab_us:
+        st.subheader("US Option Strike Analysis")
+        if check_access_or_show_teaser("美股期權 US Option",
+                                       description="Follow the Smart Money. Real-time unusual options activity and gamma exposure levels."):
 
-# [PAGE] HK Option
-elif target_page == "港股期權 HK Option":
-    st.title("HK Option Market Analysis")
-    st.caption("Market Scanner, Stock Ranking & Heatmaps")
-    path = "Option"
-    search_pattern = "HK_Option_Market_*.html"
-    html_content, filename = get_latest_file_content(path, search_pattern)
+            path = "Option"
+            search_pattern = "option_strike_*.html"
+            html_content, filename = get_latest_file_content(path, search_pattern)
+            if html_content:
+                st.caption(f"📅 Report Date: {filename}")
+                components.html(html_content, height=2000, scrolling=True)
+            else:
+                st.warning("⚠️ No US Option reports found.")
 
-    if html_content:
-        st.caption(f"📅 Report Date: {filename}")
-        components.html(html_content, height=2000, scrolling=True)
-    else:
-        st.warning("⚠️ No HK Option reports found.")
-        st.info(f"Please ensure `{path}` folder exists and contains `{search_pattern}` files.")
+    # --- Tab 3: Strategy (LOCKED) ---
+    with tab_strat:
+        st.subheader("Interactive Option Strategy Builder")
+        if check_access_or_show_teaser("期權策略 Strategy",
+                                       description="Quantitative Analysis & Strategy Performance."):
 
-# [PAGE] Volume Profile
-elif target_page == "成交分佈 Volume Profile":
-    st.title("📊 Volume Profile Analysis")
-    path = "VP"
-    html_content, filename = get_latest_file_content(path)
+            # --- 用戶輸入區 (Copy from original block) ---
+            with st.container():
+                c1, c2, c3, c4 = st.columns([2, 1, 1, 1])
+                with c1:
+                    ticker_input = st.text_input("Enter US Ticker", value="NVDA", help="e.g., TSLA, AAPL, NVDA",
+                                                 key="strat_ticker").upper()
+                with c2:
+                    spread_width = st.number_input("Spread Width ($)", value=5, min_value=1, max_value=50,
+                                                   key="strat_width")
+                with c3:
+                    otm_call_pct = st.number_input("Call OTM %", value=1.03, step=0.01, format="%.2f",
+                                                   help="1.10 = 10% OTM", key="strat_call")
+                with c4:
+                    itm_put_pct = st.number_input("Put ITM %", value=0.97, step=0.01, format="%.2f",
+                                                  help="0.90 = 10% OTM", key="strat_put")
 
-    if html_content:
-        st.caption(f"Displaying Report: {filename}")
-        components.html(html_content, height=1000, scrolling=True)
-    else:
-        st.warning("⚠️ 尚未部署 Volume Profile 模組 (VP 資料夾為空)")
+                run_btn = st.button("🚀 Generate Strategy Dashboard", type="primary", use_container_width=True,
+                                    key="strat_btn")
 
-# [PAGE] Future -> Intraday Volatility
-elif target_page == "日內波幅 Volatility":
-    st.title("⚡ Intraday Volatility Analysis")
-    html_path = os.path.join("MarketDashboard", "Intraday_Volatility.html")
-    html_content = load_html_file(html_path)
-    if html_content and "File not found" not in html_content:
-        components.html(html_content, height=1200, scrolling=True)
-    else:
-        st.warning("⚠️ 找不到 Intraday Volatility 報告")
-        st.info(f"請確認檔案 `{html_path}` 是否存在。")
+            # --- 執行邏輯 ---
+            if run_btn and ticker_input:
+                with st.status(f"Processing {ticker_input}...", expanded=True) as status:
+                    # Step 1: 檢查/下載 CSV
+                    status.write("📂 Checking local data cache...")
+                    try:
+                        df_hist, options_data, data_date = get_local_data(ticker_input)
+                        if df_hist is None:
+                            status.update(label="Local Data Not Found", state="error")
+                            st.error(f"Data not found. Please run data_updater.py first.")
+                            st.stop()
+                        status.write(f"✅ Loaded history data. Data Date: {data_date}")
 
-# [PAGE] Future -> HSI CBBC Ladder
-elif target_page == "牛熊重貨區 CBBC Ladder":
-    st.title("🐻 HSI CBBC Heavy Zone (牛熊重貨區)")
-    html_path = os.path.join("MarketDashboard", "HSI_CBBC_Ladder.html")
-    html_content = load_html_file(html_path)
-    if html_content and "File not found" not in html_content:
-        components.html(html_content, height=1200, scrolling=True)
-    else:
-        st.warning("⚠️ 尚未生成牛熊證分佈報告")
-        st.info(f"請確認檔案 `{html_path}` 是否存在。")
+                        # Step 2: 獲取期權鏈並生成 HTML
+                        status.write("🔗 Calculating strategy payoffs...")
+                        html_result, msg = generate_strategy_html(ticker_input, spread_width, otm_call_pct, itm_put_pct)
+
+                        if html_result:
+                            status.update(label="Dashboard Generated!", state="complete")
+                            st.markdown("---")
+                            components.html(html_result, height=1400, scrolling=True)
+                        else:
+                            status.update(label="Generation Failed", state="error")
+                            st.error(msg)
+                    except Exception as e:
+                        st.error(f"System Error: {e}")
+
+# [PAGE] Future (Consolidated Tabs)
+elif target_page == "期貨/牛熊 Future":
+    st.title("🎢 Futures & Trends")
+    st.caption("Volatility, Volume & Heavy Zones")
+
+    tab_vol, tab_vp, tab_cbbc = st.tabs([
+        "⚡ Intraday Volatility",
+        "📊 Volume Profile",
+        "🐻 CBBC Ladder"
+    ])
+
+    # --- Tab 1: Intraday Volatility ---
+    with tab_vol:
+        st.subheader("Intraday Volatility Analysis")
+        html_path = os.path.join("MarketDashboard", "Intraday_Volatility.html")
+        html_content = load_html_file(html_path)
+        if html_content and "File not found" not in html_content:
+            components.html(html_content, height=1200, scrolling=True)
+        else:
+            st.warning("⚠️ 找不到 Intraday Volatility 報告")
+
+    # --- Tab 2: Volume Profile (LOCKED) ---
+    with tab_vp:
+        st.subheader("Volume Profile Analysis")
+        if check_access_or_show_teaser("成交分佈 Volume Profile",
+                                       description="Professional grade Volume Profile analysis to identify key support and resistance levels."):
+
+            path = "VP"
+            html_content, filename = get_latest_file_content(path)
+            if html_content:
+                st.caption(f"Displaying Report: {filename}")
+                components.html(html_content, height=1000, scrolling=True)
+            else:
+                st.warning("⚠️ 尚未部署 Volume Profile 模組 (VP 資料夾為空)")
+
+    # --- Tab 3: CBBC Ladder (LOCKED) ---
+    with tab_cbbc:
+        st.subheader("HSI CBBC Heavy Zone")
+        if check_access_or_show_teaser("牛熊重貨區 CBBC Ladder",
+                                       description="Visualise the Bear/Bull contract heavy zones to predict market dealer hedging moves."):
+
+            html_path = os.path.join("MarketDashboard", "HSI_CBBC_Ladder.html")
+            html_content = load_html_file(html_path)
+            if html_content and "File not found" not in html_content:
+                components.html(html_content, height=1200, scrolling=True)
+            else:
+                st.warning("⚠️ 尚未生成牛熊證分佈報告")
+
 
 # [PAGE] My Portfolio
 elif target_page == "實戰持倉 Portfolio":
