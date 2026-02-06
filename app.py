@@ -457,6 +457,7 @@ elif target_page == "EA 介紹":
 elif target_page == "交易學院":
     education_page.render_education_page(utils.check_access_or_show_teaser, utils.load_markdown_with_images)
 
+
 # [PAGE] Legal
 elif target_page == "Legal":
     st.title("📜 Legal & Compliance")
