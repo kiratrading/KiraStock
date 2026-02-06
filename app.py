@@ -77,7 +77,7 @@ with st.sidebar:
         "自動鈔能力",  # EA (Auto-Trading)
         "交易學院",
         "交易社群",
-        "工具資源",
+        "CFD開戶優惠",
         "升級會員"  # VIP
     ]
 
@@ -470,7 +470,7 @@ elif target_page == "Legal":
         st.html(utils.load_html_file(os.path.join("Legal", "terms.html")))
 
 # [PAGE] Resources
-elif target_page == "工具資源":
+elif target_page == "CFD開戶優惠":
     st.title("🔗 Trading Resources")
     html = utils.load_html_file(os.path.join("Resources", "external_links.html"))
     if "File not found" not in html:

@@ -1,248 +1,549 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParisTrader | 年度感恩祭 & 官方資源</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: transparent;
-        color: #e2e8f0;
-        margin: 0;
-        padding: 20px;
-    }
+        /* --- Global Variables & Reset --- */
+        :root {
+            --bg-color: #0B0E14;
+            --card-bg: #1E293B;
+            --text-primary: #F3F4F6;
+            --text-secondary: #9CA3AF;
+            --gold-primary: #F59E0B;
+            --gold-gradient: linear-gradient(135deg, #FDE68A 0%, #D97706 100%);
+            --accent-blue: #3B82F6;
+            --border-light: rgba(255, 255, 255, 0.1);
+        }
 
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-    }
+        body {
+            font-family: 'Inter', 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
 
-    /* --- General Card Style --- */
-    .resource-card {
-        background: rgba(30, 41, 59, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 20px;
-        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-        text-decoration: none;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 120px;
-        height: auto;
-    }
+        a { text-decoration: none; }
 
-    .resource-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        border-color: rgba(96, 165, 250, 0.5); /* Blue hover for tools */
-        background: rgba(30, 41, 59, 0.9);
-    }
+        /* --- Layout Container --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    /* --- Broker Card Style (Gold Highlight) --- */
-    .broker-card {
-        background: rgba(30, 41, 59, 0.6);
-        border: 1px solid rgba(234, 179, 8, 0.3); /* Subtle Gold Border */
-    }
+        /* --- Header / Hero Section --- */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(11, 14, 20, 1) 70%);
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 40px;
+        }
 
-    .broker-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(234, 179, 8, 0.15); /* Gold Shadow */
-        border-color: rgba(234, 179, 8, 0.8); /* Strong Gold on Hover */
-        background: rgba(40, 40, 50, 0.9);
-    }
+        .brand {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
 
-    /* --- Official Link Style (Paris Brand Color/Highlight) --- */
-    /* Optional: Make your official links stand out slightly differently if desired */
-    .official-card {
-        border-color: rgba(96, 165, 250, 0.3);
-        background: rgba(30, 41, 59, 0.8);
-    }
+        h1 {
+            font-size: 2.8rem;
+            margin: 10px 0;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            line-height: 1.2;
+        }
 
-    .card-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .icon {
-        font-size: 1.5rem;
-    }
+        .date-badge {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--gold-primary);
+            padding: 6px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-top: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
 
-    h3 {
-        margin: 0;
-        font-size: 1.1rem;
-        color: #f8fafc;
-        font-weight: 600;
-    }
+        /* --- Event Cards (Vertical Layout) --- */
+        .event-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
 
-    p {
-        margin: 10px 0 0 0;
-        font-size: 0.9rem;
-        color: #94a3b8;
-        line-height: 1.5;
-    }
+        .event-card.highlight {
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            background: linear-gradient(to bottom right, rgba(30, 41, 59, 1), rgba(20, 25, 35, 1));
+        }
 
-    .arrow {
-        align-self: flex-end;
-        color: #3b82f6;
-        font-weight: bold;
-        font-size: 1.2rem;
-        margin-top: 15px;
-    }
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+        }
 
-    .broker-arrow {
-        align-self: flex-end;
-        color: #fbbf24; /* Gold Arrow */
-        font-weight: bold;
-        font-size: 1.2rem;
-        margin-top: 15px;
-    }
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
 
-    /* --- Section Header --- */
-    .section-header {
-        margin: 40px 0 20px 0;
-        padding-bottom: 10px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
+        .highlight-text {
+            color: var(--gold-primary);
+            font-weight: 700;
+        }
 
-    .header-title-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #e2e8f0;
-        font-size: 1.2rem;
-        font-weight: 600;
-    }
+        .promo-img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            display: block;
+        }
 
-    .badge-promo {
-        background: rgba(234, 179, 8, 0.2);
-        color: #fbbf24;
-        font-size: 0.75rem;
-        padding: 4px 8px;
-        border-radius: 4px;
-        border: 1px solid rgba(234, 179, 8, 0.3);
-    }
+        /* --- Lists within Event Cards --- */
+        ul.promo-list {
+            list-style: none;
+            padding: 0;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 12px;
+        }
 
-    .section-promo-text {
-        color: #fbbf24; /* Gold color */
-        font-size: 0.95rem;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
+        ul.promo-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
 
-    .highlight-code {
-        color: #fbbf24;
-        font-weight: 500;
-        display: block;
-        margin-top: 4px;
-        font-size: 0.85rem;
-    }
-</style>
+        ul.promo-list li:last-child { margin-bottom: 0; }
+
+        ul.promo-list li::before {
+            content: '✓';
+            color: var(--gold-primary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-top: 25px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-gold {
+            background: var(--gold-gradient);
+            color: #1a0f00;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #fff;
+        }
+
+        .btn-dashed { border-style: dashed; }
+
+        /* --- Q&A Section --- */
+        .qa-section {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            margin-top: 50px;
+            border: 1px solid var(--border-light);
+        }
+
+        .qa-item { margin-bottom: 25px; }
+        .qa-item:last-child { margin-bottom: 0; }
+
+        .question {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .answer {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255,255,255,0.1);
+        }
+
+        /* --- DIVIDER --- */
+        .section-divider {
+            margin: 60px 0 40px 0;
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+        }
+
+        /* --- RESOURCES & TOOLS (Grid System) --- */
+        .resource-header {
+            margin: 40px 0 25px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e2e8f0;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .resource-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 140px;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(96, 165, 250, 0.5);
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .resource-card h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+            color: #f8fafc;
+        }
+
+        .resource-card p {
+            margin: 8px 0 0 0;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .card-icon { font-size: 1.6rem; }
+
+        .arrow {
+            align-self: flex-end;
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        /* Broker Specifics */
+        .broker-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+
+        .broker-card:hover {
+            border-color: rgba(234, 179, 8, 0.8);
+            box-shadow: 0 10px 30px rgba(234, 179, 8, 0.1);
+        }
+
+        .broker-arrow {
+            color: #fbbf24;
+            align-self: flex-end;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .badge-promo {
+            background: rgba(234, 179, 8, 0.15);
+            color: #fbbf24;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            white-space: nowrap;
+        }
+
+        .highlight-code {
+            color: #fbbf24;
+            font-weight: 500;
+            display: block;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            background: rgba(0,0,0,0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-light);
+            margin-top: 60px;
+            background: #080a0f;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 15px; }
+            .header-title-row { flex-wrap: wrap; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="section-header">
-        <div class="header-title-row">
-            <span>📚 官方資源 & 常用工具 (Resources & Tools)</span>
+    <header>
+        <div class="container">
+            <span class="brand">ParisTrader Quant Research</span>
+            <h1>足金馬到功成<br>年度感恩大行動</h1>
+            <p class="subtitle">
+                感謝戰友 2025 全年支持！配合金價新高，我們送出足金飾物與升級大禮，與您喜迎馬年。
+            </p>
+            <div class="date-badge">📅 活動日期：2026年2月1日 - 28日</div>
         </div>
-    </div>
+    </header>
 
-    <div class="grid-container">
+    <div class="container">
 
-        <a href="https://parisprogram.uk" target="_blank" class="resource-card official-card">
-            <div>
-                <div class="card-header">
-                    <span class="icon">🎓</span>
-                    <h3>Paris Program 官網</h3>
-                </div>
-                <p>我的會員教學官網及 Blog。提供深度量化交易策略與宏觀分析文章。</p>
+        <div class="resource-header" style="margin-top: 10px;">
+            <div class="header-title-row">
+                <span>💎 嚴選券商參考</span>
+                <span class="badge-promo">全港獨家獎勵</span>
             </div>
-            <span class="arrow">Visit Site &nearr;</span>
-        </a>
-
-        <a href="https://t.me/algoparistrader" target="_blank" class="resource-card official-card">
-            <div>
-                <div class="card-header">
-                    <span class="icon">✈️</span>
-                    <h3>Telegram 公眾號</h3>
-                </div>
-                <p>即時資訊頻道。發布個人操作 Recap、市場突發新聞與即時觀點。</p>
-            </div>
-            <span class="arrow">Join Channel &nearr;</span>
-        </a>
-
-        <a href="https://www.cmegroup.com/cn-t/markets/interest-rates/cme-fedwatch-tool.html" target="_blank" class="resource-card">
-            <div>
-                <div class="card-header">
-                    <span class="icon">🏦</span>
-                    <h3>CME FedWatch Tool</h3>
-                </div>
-                <p>Monitor market expectations for potential Fed rate changes.</p>
-            </div>
-            <span class="arrow">&nearr;</span>
-        </a>
-
-    </div>
-
-
-    <div class="section-header">
-        <div class="header-title-row">
-            <span>💎 嚴選券商 (Good Broker Reference)</span>
-            <span class="badge-promo">全港獨家獎勵</span>
+            <p style="margin: 0; color: #fbbf24; font-size: 0.95rem;">
+                🎁 任何券商開戶後 PM 我們，即可獲得券商的禮物 999 開運金牌一塊！
+            </p>
         </div>
-        <div class="section-promo-text">
-            🎁 任何券商開戶後 PM 我們，即可獲得券商的禮物 999 開運金牌一塊！
+
+        <div class="grid-container">
+            <a href="https://vigco.co/la-com/LyingFlat" target="_blank" class="resource-card broker-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🚀</span>
+                        <h3>Vantage Markets</h3>
+                    </div>
+                    <p>全球領先 CFD 券商，透過此連結開戶享額外獨家獎勵。</p>
+                    <span class="highlight-code">Code: ParisTrader</span>
+                </div>
+                <span class="broker-arrow">Open Account &nearr;</span>
+            </a>
+
+            <a href="https://icmarkets.com/?camp=77018" target="_blank" class="resource-card broker-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🌍</span>
+                        <h3>IC Markets</h3>
+                    </div>
+                    <p>極低點差與頂級流動性，Paris Trader 專屬開戶優惠。</p>
+                </div>
+                <span class="broker-arrow">Open Account &nearr;</span>
+            </a>
+
+            <a href="https://ultgo.com/r63qYb" target="_blank" class="resource-card broker-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🌟</span>
+                        <h3>Ultima Markets</h3>
+                    </div>
+                    <p>低交易成本、高槓桿 (1:2000)。</p>
+                    <span class="highlight-code">Referred By: paristrader</span>
+                </div>
+                <span class="broker-arrow">Open Account &nearr;</span>
+            </a>
         </div>
+
+        <hr class="section-divider" style="margin: 20px 0 50px 0;">
+
+        <div class="event-card">
+            <div class="card-title">
+                🌟 第一重：全員感恩禮 (人人有份)
+            </div>
+
+            <img src="https://raw.githubusercontent.com/ParisTrader/paristrader-terminal/main/Resources/horse_pro1.jpg" alt="999足金馬年開運飾物" class="promo-img">
+
+            <div class="card-content">
+                <p>為答謝現有會員的一路相伴，只需填寫表格，即可獲贈：</p>
+                <h3 class="highlight-text" style="font-size: 1.3rem;">🎁 999 足金馬年開運飾物 一件</h3>
+                <p>寓意：金玉滿堂，明年倉位金光閃閃！</p>
+            </div>
+
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4gY_B2KXpAcQ1T7wjQRt9CX4yAgAx9pJ6wULCRFGOYLZmag/viewform?pli=1" target="_blank" class="btn btn-gold">👉 立即填表領取</a>
+        </div>
+
+        <div class="event-card highlight">
+            <div style="position: absolute; top: 0; right: 0; background: #F59E0B; color: #000; font-size: 0.8rem; padding: 6px 12px; font-weight: 700; border-bottom-left-radius: 12px;">RECOMMENDED</div>
+
+            <div class="card-title">
+                🚀 第二重：升級續費．鎖定優惠
+            </div>
+
+            <img src="https://raw.githubusercontent.com/ParisTrader/paristrader-terminal/main/Resources/horse_pro2.jpg" alt="馬年風水擺設" class="promo-img">
+
+            <div class="card-content">
+                <p>2026 年系統將全面升級（Swing Trade 工具 + EA 優化），年費即將調整。把握現在，鎖定未來！</p>
+
+                <ul class="promo-list">
+                    <li><strong style="color:#fff">資格：</strong>趁漲價前「續約下一年」或「月費轉年費」</li>
+                    <li><strong style="color:#fff">承諾：</strong>舊制會員享有 <span class="highlight-text">永遠沿用舊價</span> 之權益</li>
+                    <li><strong style="color:#fff">加碼禮：</strong>額外獲贈 <span class="highlight-text">精美馬年風水擺設</span> 一座 (如上圖)</li>
+                </ul>
+            </div>
+            <a href="https://t.me/Ho777ggg" target="_blank" class="btn btn-outline">🔥 聯絡 @Ho777ggg 續費鎖定</a>
+        </div>
+
+        <div class="event-card">
+            <div class="card-title">
+                🤝 第三重：推廣有賞
+            </div>
+            <div class="card-content">
+                <p>好策略要同好朋友分享！</p>
+                <ul class="promo-list" style="background: transparent; padding-left: 0;">
+                    <li><strong>資格：</strong>成功推薦一位新朋友加入 ParisTrader</li>
+                    <li><strong>禮品：</strong>同享 <span class="highlight-text">馬年風水擺設</span> 一座</li>
+                </ul>
+            </div>
+            <a href="https://t.me/Ho777ggg" target="_blank" class="btn btn-outline btn-dashed">💬 聯絡專員推薦朋友</a>
+        </div>
+
+        <div class="qa-section">
+            <h3 style="text-align: center; color: #fff; margin-top: 0; margin-bottom: 30px;">❓ 常見問題 Q&A</h3>
+
+            <div class="qa-item">
+                <div class="question">Q：我之前已經俾咗年費，會籍未到期，可唔可以參加「升級大禮」？</div>
+                <div class="answer">A：絕對可以！您可以選擇提早續費。新購買的年費會籍將會<strong>自動疊加</strong>在您現有的會期之後（例如：原定2026年3月到期 ➡️ 續費後延長至2027年3月）。</div>
+            </div>
+
+            <div class="qa-item">
+                <div class="question">Q：如何領取足金飾物？</div>
+                <div class="answer">A：請點擊上方的黃色按鈕填寫 Google Form，我們會核對您的會員資料後安排寄出。</div>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="resource-header">
+            <div class="header-title-row">
+                <span>📚 官方資源 & 常用工具</span>
+            </div>
+            <p style="margin: 0; color: #64748b;">Official Resources & Tools</p>
+        </div>
+
+        <div class="grid-container">
+            <a href="https://parisprogram.uk" target="_blank" class="resource-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🎓</span>
+                        <h3>Paris Program 官網</h3>
+                    </div>
+                    <p>我的會員教學官網及 Blog。提供深度量化交易策略與宏觀分析文章。</p>
+                </div>
+                <span class="arrow">Visit Site &nearr;</span>
+            </a>
+
+            <a href="https://t.me/algoparistrader" target="_blank" class="resource-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">✈️</span>
+                        <h3>Telegram 公眾號</h3>
+                    </div>
+                    <p>即時資訊頻道。發布個人操作 Recap、市場突發新聞與即時觀點。</p>
+                </div>
+                <span class="arrow">Join Channel &nearr;</span>
+            </a>
+
+            <a href="https://www.cmegroup.com/cn-t/markets/interest-rates/cme-fedwatch-tool.html" target="_blank" class="resource-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🏦</span>
+                        <h3>CME FedWatch</h3>
+                    </div>
+                    <p>Monitor market expectations for potential Fed rate changes.</p>
+                </div>
+                <span class="arrow">Open Tool &nearr;</span>
+            </a>
+        </div>
+
     </div>
 
-    <div class="grid-container">
-
-        <a href="https://vigco.co/la-com/LyingFlat" target="_blank" class="resource-card broker-card">
-            <div>
-                <div class="card-header">
-                    <span class="icon">🚀</span>
-                    <h3>Vantage Markets</h3>
-                </div>
-                <p>全球領先 CFD 券商，透過此連結開戶享額外獨家獎勵。
-                <span class="highlight-code">Referral Invitation Code: ParisTrader</span>
-                </p>
-            </div>
-            <span class="broker-arrow">Open Account &nearr;</span>
-        </a>
-
-        <a href="https://icmarkets.com/?camp=77018" target="_blank" class="resource-card broker-card">
-            <div>
-                <div class="card-header">
-                    <span class="icon">🌍</span>
-                    <h3>IC Markets</h3>
-                </div>
-                <p>極低點差與頂級流動性，Paris Trader 專屬開戶優惠。</p>
-            </div>
-            <span class="broker-arrow">Open Account &nearr;</span>
-        </a>
-
-        <a href="https://ultgo.com/r63qYb" target="_blank" class="resource-card broker-card">
-            <div>
-                <div class="card-header">
-                    <span class="icon">🌟</span>
-                    <h3>Ultima Markets</h3>
-                </div>
-                <p>低交易成本、高槓桿 (1:2000)。
-                <span class="highlight-code">填寫 Referred By: paristrader</span>
-                </p>
-            </div>
-            <span class="broker-arrow">Open Account &nearr;</span>
-        </a>
-
-    </div>
+    <footer>
+        <p>&copy; 2026 ParisTrader. All rights reserved.</p>
+        <p>Investment involves risk. 本活動最終解釋權歸 ParisTrader 所有。</p>
+    </footer>
 
 </body>
 </html>
