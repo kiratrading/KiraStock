@@ -430,7 +430,7 @@ elif target_page == "實戰持倉":
                 components.html(html, height=1200, scrolling=True)
             else:
                 st.info("👀 Preview Mode (Showing Top Holdings Only)")
-                components.html(html, height=600, scrolling=False)
+                components.html(html, height=800, scrolling=False)
                 utils.check_access_or_show_teaser("Stock Journal Full Access", description="Unlock full trade journal.")
         else:
             st.warning("⚠️ Report not found.")
