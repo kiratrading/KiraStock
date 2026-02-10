@@ -70,6 +70,7 @@ def render_admin_console():
     # --- CONFIGURATION ---
     REPO_OWNER = "ParisTrader"  # 你的 GitHub 用戶名
     REPO_NAME = "paristrader-terminal"  # 你的 Repo 名稱
+    PRIVATE_REPO = "paristrader-private"
     BRANCH = "main"
 
     # CSV Path inside the repo
@@ -231,35 +232,57 @@ def render_admin_console():
                 },
                 hide_index=True
             )
-
-            # 3. Save Button
-            if st.button("💾 Save Changes to GitHub", type="primary"):
+            # 3. Save Button (Dual Push Logic)
+            if st.button("💾 Save Changes to BOTH Repos", type="primary"):
                 try:
-                    # Convert DF back to CSV
+                    # A. Convert DF back to CSV string
                     csv_buffer = io.StringIO()
                     edited_df.to_csv(csv_buffer, index=False)
                     new_csv_content = csv_buffer.getvalue()
 
-                    # Push to GitHub
-                    resp = push_to_github(
-                        f"{REPO_OWNER}/{REPO_NAME}",
-                        TRADE_CSV_PATH,
-                        GITHUB_TOKEN,
-                        new_csv_content,
-                        st.session_state.trade_sha,
-                        f"Update trades via Admin Console {datetime.now().strftime('%Y-%m-%d')}",
-                        BRANCH
-                    )
+                    # B. Define targets (Public & Private)
+                    targets = [
+                        {"name": "Public", "repo": f"{REPO_OWNER}/{PUBLIC_REPO}"},
+                        {"name": "Private", "repo": f"{REPO_OWNER}/{PRIVATE_REPO}"}
+                    ]
 
-                    if resp.status_code in [200, 201]:
-                        st.success("✅ Trade log updated successfully!")
-                        # 更新 Session State 和 SHA
-                        st.session_state.trade_df = edited_df
-                        st.session_state.trade_sha = resp.json()['content']['sha']
+                    success_count = 0
+                    status_msg = st.empty()  # 用來顯示進度
+
+                    # C. Loop through targets and push
+                    for target in targets:
+                        repo_full_name = target['repo']
+                        status_msg.info(f"⏳ Updating {target['name']} ({repo_full_name})...")
+
+                        # STEP 1: 必須先獲取該 Repo 該檔案當下的 SHA
+                        # (不能用 session_state.trade_sha，因為那是讀取時那個 Repo 的 SHA)
+                        _, current_sha = get_github_file(repo_full_name, TRADE_CSV_PATH, GITHUB_TOKEN, BRANCH)
+
+                        # STEP 2: 推送更新
+                        resp = push_to_github(
+                            repo_full_name,
+                            TRADE_CSV_PATH,
+                            GITHUB_TOKEN,
+                            new_csv_content,
+                            current_sha,  # 使用剛抓到的 SHA
+                            f"Sync trades {datetime.now().strftime('%Y-%m-%d %H:%M')}",
+                            BRANCH
+                        )
+
+                        if resp.status_code in [200, 201]:
+                            st.toast(f"✅ {target['name']} Repo Updated!", icon="🎉")
+                            success_count += 1
+                        else:
+                            st.error(f"❌ Failed to update {target['name']}: {resp.status_code} - {resp.text}")
+
+                    # D. Final Result
+                    if success_count == len(targets):
+                        st.success(f"🏆 All Repos Synced Successfully! ({success_count}/{len(targets)})")
                         st.balloons()
-                    else:
-                        st.error(f"❌ Update failed: {resp.status_code}")
-                        st.json(resp.json())
+
+                        # 更新 Session State (通常我們只要更新顯示用的那個)
+                        st.session_state.trade_df = edited_df
+                        # 這裡不需要更新 trade_sha，因為下次存檔會重新抓新的 SHA
 
                 except Exception as e:
-                    st.error(f"Error saving: {e}")
+                    st.error(f"System Error: {e}")
