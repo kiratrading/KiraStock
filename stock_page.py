@@ -33,7 +33,6 @@ def render_stock_page():
     with phase1:
         st.info("💡 **第一步：市場節奏與熱點？** 查看板塊輪動、標普熱力圖，並留意本週**業績公佈**帶來的波動風險。")
 
-        # [已更新] 將 "業績公佈" 加入此區塊
         p1_tabs = st.tabs(["🧺 概念籃子", "🗺️ 板塊輪動", "🔥 標普500", "📅 業績公佈"])
 
         # --- Tab 1.1: 主題投組 ---
@@ -65,7 +64,7 @@ def render_stock_page():
             else:
                 st.warning("⚠️ 找不到 S&P 500 熱力圖。")
 
-        # --- Tab 1.4: 業績公佈 (Moved Here) ---
+        # --- Tab 1.4: 業績公佈 ---
         with p1_tabs[3]:
             st.subheader("財報行事曆分析 (Earnings Calendar)")
             html, _ = utils.get_latest_file_content("Earnings")
@@ -80,7 +79,6 @@ def render_stock_page():
     with phase2:
         st.info("💡 **第二步：誰在買？買什麼？** 追蹤 ETF 資金流、內部人交易，並結合技術評分篩選個股。")
 
-        # [已更新] 移除業績，剩下 4 個選股工具
         p2_tabs = st.tabs(["🚀 ETF資金流", "🚦 技術評分", "🕴️ 內部交易", "⚡ 挾淡倉"])
 
         # --- Tab 2.1: ETF 聰明錢 ---
@@ -94,22 +92,24 @@ def render_stock_page():
                 else:
                     st.warning("⚠️ 找不到 ETF 資金流報告。")
 
-        # --- Tab 2.2: 技術評分 ---
+        # --- Tab 2.2: 技術評分 (已上鎖) ---
         with p2_tabs[1]:
             st.subheader("技術分析評分 (Technical Analysis Score)")
-            sub_us, sub_hk = st.tabs(["🇺🇸 美股市場", "🇭🇰 港股市場"])
-            with sub_us:
-                html, _ = utils.get_latest_file_content("Stock", "TA_score_heatmap_*.html")
-                if html:
-                    components.html(html, height=1200, scrolling=True)
-                else:
-                    st.warning("⚠️ 找不到美股報告。")
-            with sub_hk:
-                html_hk, _ = utils.get_latest_file_content("Stock", "HK_TA_score_heatmap_*.html")
-                if html_hk:
-                    components.html(html_hk, height=1200, scrolling=True)
-                else:
-                    st.warning("⚠️ 找不到港股報告。")
+            if utils.check_access_or_show_teaser("技術評分 TA Score",
+                                                 description="查看美股與港股的技術指標綜合評分矩陣。"):
+                sub_us, sub_hk = st.tabs(["🇺🇸 美股市場", "🇭🇰 港股市場"])
+                with sub_us:
+                    html, _ = utils.get_latest_file_content("Stock", "TA_score_heatmap_*.html")
+                    if html:
+                        components.html(html, height=1200, scrolling=True)
+                    else:
+                        st.warning("⚠️ 找不到美股報告。")
+                with sub_hk:
+                    html_hk, _ = utils.get_latest_file_content("Stock", "HK_TA_score_heatmap_*.html")
+                    if html_hk:
+                        components.html(html_hk, height=1200, scrolling=True)
+                    else:
+                        st.warning("⚠️ 找不到港股報告。")
 
         # --- Tab 2.3: 內部交易 ---
         with p2_tabs[2]:
