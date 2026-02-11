@@ -13,6 +13,7 @@ def render_recap_page(load_markdown_func):
 
     本頁面內容僅為個人交易紀錄與學術研究分享，**並非投資建議 (Not Financial Advice)**。
     所有圖表、點位與分析僅用於驗證量化策略的有效性。過往績效不代表未來表現。請勿盲目跟單，投資涉及風險，請自行評估。
+    即時的個人操作會在TG群,這裡會有t+1 delay
     """)
 
     st.markdown("---")
