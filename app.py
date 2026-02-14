@@ -36,6 +36,54 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# --- Language Setup ---
+if 'language' not in st.session_state:
+    st.session_state['language'] = 'zh'  # 默認中文
+
+def toggle_language():
+    if st.session_state['language'] == 'zh':
+        st.session_state['language'] = 'en'
+    else:
+        st.session_state['language'] = 'zh'
+
+# 翻譯字典：定義所有需要切換的文字
+translations = {
+    "zh": {
+        "slogan_title": "不再做韭菜 | 直接跟蹤大戶聰明錢",
+        "slogan_sub": "揭秘華爾街底牌：期權異動 | 莊家成本 | 趨勢預判",
+        "intro_text": "傳統圖表只告訴你「過去」發生什麼，我們的數據告訴你<b>「未來」大戶想去哪裡</b>。<br>Stop guessing. See the cards the dealer is holding.",
+        "tutorial": "📺 網站使用教學",
+        "weekly_btn": "📊 偷看本週大戶部署 (Weekly Analysis)",
+        "week_ahead": "🧠 Week Ahead Strategy",
+        "expander_title": "📖 點擊展開：大市前瞻與劇本",
+        "contact_btn": "聯絡我 Contact Me",
+        "vip_promo_title": "👑 解鎖大戶底牌",
+        "vip_promo_desc": "偷看機構持倉 (Insider)<br>& 聰明錢流向 (Flow)",
+        "vip_join": "🚀 立即加入 (Join Now)",
+        "nav_title": "導航選單",
+        "settings": "語言設定 / Settings"
+    },
+    "en": {
+        "slogan_title": "Stop Retail Trading | Follow Smart Money",
+        "slogan_sub": "Reveal Wall St Cards: Option Flow | Dealer Cost | Trend Prediction",
+        "intro_text": "Traditional charts only show you the 'Past'. Our data tells you <b>where Smart Money is going in the 'Future'</b>.<br>Stop guessing. See the cards the dealer is holding.",
+        "tutorial": "📺 Platform Tutorial",
+        "weekly_btn": "📊 Weekly Institutional Analysis",
+        "week_ahead": "🧠 Week Ahead Strategy",
+        "expander_title": "📖 Click to Expand: Market Outlook",
+        "contact_btn": "Contact Me",
+        "vip_promo_title": "👑 Unlock Institutional Data",
+        "vip_promo_desc": "Insider Holdings<br>& Smart Money Flow",
+        "vip_join": "🚀 Join Now",
+        "nav_title": "Navigation",
+        "settings": "Settings"
+    }
+}
+
+# 獲取當前語言文字的 Helper function
+def t(key):
+    return translations[st.session_state['language']].get(key, key)
+
 # Apply CSS from styles.py
 styles.apply_custom_css()
 
@@ -62,6 +110,22 @@ st.markdown("""
 
 # --- Sidebar ---
 with st.sidebar:
+    # 1. 加入語言切換按鈕
+    col_lang1, col_lang2 = st.columns([1, 3])
+    with col_lang1:
+        st.write("🌐")
+    with col_lang2:
+        # 使用 Radio 或 Button 切換
+        lang_choice = st.radio("Language", ["中文", "English"],
+                               index=0 if st.session_state['language'] == 'zh' else 1,
+                               horizontal=True, label_visibility="collapsed")
+
+        # 檢測狀態改變並更新 Session
+        new_lang = 'zh' if lang_choice == "中文" else 'en'
+        if new_lang != st.session_state['language']:
+            st.session_state['language'] = new_lang
+            st.rerun()
+
     st.markdown("""
     <div style='padding: 20px 0px; text-align: center; border-bottom: 1px solid #374151; margin-bottom: 20px;'>
         <h2 style='color: #F3F4F6; margin:0; letter-spacing: 1px; font-weight: 700;'>ParisTrader</h2>
@@ -69,54 +133,48 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
+    # --- 定義導航菜單的 中英對照 ---
+    nav_map_zh = {
+        "首頁": "首頁", "每日復盤": "每日復盤", "研究專欄": "研究專欄",
+        "大市雷達": "大市雷達", "實戰持倉": "實戰持倉", "美股獵人": "美股獵人",
+        "期權佈局": "期權佈局", "期貨牛熊": "期貨牛熊", "自動鈔能力": "自動鈔能力",
+        "交易學院": "交易學院", "交易社群": "交易社群", "CFD開戶優惠": "CFD開戶優惠",
+        "升級會員": "升級會員"
+    }
+
+    nav_map_en = {
+        "首頁": "Home", "每日復盤": "Daily Recap", "研究專欄": "Research",
+        "大市雷達": "Market Radar", "實戰持倉": "Portfolio", "美股獵人": "Stock Hunter",
+        "期權佈局": "Option Flow", "期貨牛熊": "Futures & Vol", "自動鈔能力": "Auto-Trading (EA)",
+        "交易學院": "Academy", "交易社群": "Community", "CFD開戶優惠": "Broker Offer",
+        "升級會員": "Go VIP"
+    }
+
+    # 選擇當前使用的 Map
+    current_nav_map = nav_map_zh if st.session_state['language'] == 'zh' else nav_map_en
+    # 創建顯示用的 List
+    display_options = list(current_nav_map.values())
+
 
     # --- Navigation Logic ---
-    def on_nav_change(key):
-        if "main_nav_key" in st.session_state:
-            st.query_params["page"] = st.session_state["main_nav_key"]
-            if "sub" in st.query_params:
-                del st.query_params["sub"]
-
-
     query_params = st.query_params
     url_main_page = query_params.get("page", "首頁")
-    url_sub_page = query_params.get("sub", None)
+    url_sub_page = query_params.get("sub", None)  # 獲取 sub 參數
 
-    main_options = [
-        "首頁",
-        "每日復盤",  # <--- 新增這裡 (High Engagement)
-        "研究專欄",
-        "大市雷達",  # Market Radar
-        "實戰持倉",  # Portfolio
-        "美股獵人",  # Stock Hunter
-        "期權佈局",  # Option Flow
-        "期貨牛熊",  # Futures
-        "自動鈔能力",  # EA (Auto-Trading)
-        "交易學院",
-        "交易社群",
-        "CFD開戶優惠",
-        "升級會員"  # VIP
-    ]
-
-    if url_main_page == "SecretAdmin":
-        # 如果是隱藏後台，Sidebar 隨便選一個 (例如 0: 首頁)，或者不做任何選中
+    # 處理 URL 參數與預設索引
+    try:
+        main_default_index = list(nav_map_zh.keys()).index(url_main_page)
+    except ValueError:
         main_default_index = 0
-    else:
-        try:
-            main_default_index = main_options.index(url_main_page)
-        except ValueError:
-            matches = [i for i, opt in enumerate(main_options) if url_main_page in opt]
-            main_default_index = matches[0] if matches else 0
 
-    selected_nav = option_menu(
-        menu_title="導航選單",
-        options=main_options,
+    selected_display = option_menu(
+        menu_title=t("nav_title"),
+        options=display_options,
         icons=["house", "journal-bookmark", "globe", "activity", "briefcase", "crosshair", "layers",
                "graph-up-arrow", "robot", "mortarboard", "people-fill", "collection", "gem"],
         menu_icon="compass",
         default_index=main_default_index,
         key="main_nav_key",
-        on_change=on_nav_change,
         styles={
             "container": {"padding": "0!important", "background-color": "transparent"},
             "icon": {"color": "#9CA3AF", "font-size": "15px"},
@@ -126,18 +184,19 @@ with st.sidebar:
         }
     )
 
-    # --- Submenu Handling ---
-    target_page = selected_nav
-    if url_main_page == "SecretAdmin" or url_sub_page == "SecretAdmin":
-        target_page = "SecretAdmin"
+    # --- 關鍵轉換：將顯示文字 (Home) 轉回 邏輯 Key (首頁) ---
+    selected_nav = [k for k, v in current_nav_map.items() if v == selected_display][0]
 
+    # --- Submenu Function (修復缺失的函數) ---
     def handle_submenu(key_name, options, icons):
         default_sub_index = 0
-        if (url_main_page in selected_nav) and (url_sub_page in options):
+        # 簡單判斷：如果目前的 sub page 在選項裡，就設為預設
+        if url_sub_page and (url_sub_page in options):
             default_sub_index = options.index(url_sub_page)
-        elif (url_main_page in selected_nav) and url_sub_page:
-            matches = [i for i, opt in enumerate(options) if url_sub_page in opt]
-            if matches: default_sub_index = matches[0]
+        elif url_sub_page:
+             # 模糊匹配
+             matches = [i for i, opt in enumerate(options) if url_sub_page in opt]
+             if matches: default_sub_index = matches[0]
 
         return option_menu(
             menu_title=None, options=options, icons=icons, default_index=default_sub_index,
@@ -148,26 +207,34 @@ with st.sidebar:
             key=key_name
         )
 
+    # --- Submenu Handling ---
+    target_page = selected_nav
 
-    # [FIXED LOGIC] 自動鈔能力 Submenu
     if selected_nav == "自動鈔能力":
         st.caption("AUTOMATED TRADING")
-        target_page = handle_submenu("sub_ea", ["EA 介紹"], ["robot"])
+        ea_options_display = ["EA 介紹"] if st.session_state['language'] == 'zh' else ["EA Intro"]
+        target_sub = handle_submenu("sub_ea", ea_options_display, ["robot"])
 
-    # Update URL for deep linking
+        # Mapping back
+        if target_sub == "EA Intro":
+            target_page = "EA 介紹"
+        elif target_sub == "EA 介紹":
+            target_page = "EA 介紹"
+
+    # Update URL for deep linking (Optional logic)
     if selected_nav != target_page:
-        if url_main_page != selected_nav or url_sub_page != target_page:
-            st.query_params["page"] = selected_nav
-            st.query_params["sub"] = target_page
+        # 簡單更新 query params (Streamlit 新版寫法)
+        # st.query_params["page"] = selected_nav # 視需要開啟
+        pass
 
     st.markdown("---")
 
     # VIP Button
-    st.markdown("""
+    st.markdown(f"""
         <div class="vip-promo-card" style="background: linear-gradient(135deg, #B45309 0%, #F59E0B 50%, #D97706 100%); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px; border: 1px solid #FCD34D;">
-            <h3 style="color: #FFFFFF; margin:0; font-size: 18px; font-weight: 800;">👑 解鎖大戶底牌</h3>
-            <p style="color: #FEF3C7; font-size: 12px; margin: 8px 0;">偷看機構持倉 (Insider)<br>& 聰明錢流向 (Flow)</p>
-            <a href="?page=升級會員" target="_self" style="display: block; width: 100%; background: #FFFFFF; color: #B45309; padding: 10px; border-radius: 6px; font-weight: 800; text-decoration: none;">🚀 立即加入 (Join Now)</a>
+            <h3 style="color: #FFFFFF; margin:0; font-size: 18px; font-weight: 800;">{t('vip_promo_title')}</h3>
+            <p style="color: #FEF3C7; font-size: 12px; margin: 8px 0;">{t('vip_promo_desc')}</p>
+            <a href="?page=升級會員" target="_self" style="display: block; width: 100%; background: #FFFFFF; color: #B45309; padding: 10px; border-radius: 6px; font-weight: 800; text-decoration: none;">{t('vip_join')}</a>
         </div>
     """, unsafe_allow_html=True)
 
@@ -177,7 +244,7 @@ if url_main_page == "Legal" and selected_nav == "首頁":
 # ==========================================
 # 3. Security Check for Standalone Pages
 # ==========================================
-locked_pages = []  # Currently handled inside tabs
+locked_pages = []
 if target_page in locked_pages:
     if not utils.check_access_or_show_teaser(target_page):
         st.stop()
@@ -187,18 +254,18 @@ if target_page in locked_pages:
 # ==========================================
 
 if target_page == "SecretAdmin":
-    admin_page.render_admin_console() # 呼叫 admin_page.py 裡的函數
+    admin_page.render_admin_console()
+# [修復] 這裡原本縮進錯誤，現在拉回最左邊
 elif target_page == "首頁":
     col_main, col_profile = st.columns([0.7, 0.3], gap="large")
     with col_main:
-        st.markdown("""
-        <h1 style='color:white; font-weight:800; font-size: 2.5em;'>不再做韭菜 | 直接跟蹤大戶聰明錢</h1>
-        <h3 style='color:#94a3b8; font-size: 1.3em;'>揭秘華爾街底牌：期權異動 | 莊家成本 | 趨勢預判</h3>
-        <p style='font-size: 1.1em; color: #64748b; line-height: 1.6; margin-top: 15px;'>
-        傳統圖表只告訴你「過去」發生什麼，我們的數據告訴你<b>「未來」大戶想去哪裡</b>。<br>
-        Stop guessing. See the cards the dealer is holding.
-        </p>
-        """, unsafe_allow_html=True)
+        st.markdown(f"""
+            <h1 style='color:white; font-weight:800; font-size: 2.5em;'>{t('slogan_title')}</h1>
+            <h3 style='color:#94a3b8; font-size: 1.3em;'>{t('slogan_sub')}</h3>
+            <p style='font-size: 1.1em; color: #64748b; line-height: 1.6; margin-top: 15px;'>
+            {t('intro_text')}
+            </p>
+            """, unsafe_allow_html=True)
 
         st.markdown("---")
 
@@ -211,13 +278,12 @@ elif target_page == "首頁":
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # [FIXED] YouTube Tutorial is BACK here
-        st.subheader("📺 網站使用教學")
+        st.subheader(t('tutorial'))
         st.video("https://www.youtube.com/watch?v=qb3XtEPj8cA")
         st.markdown("<br>", unsafe_allow_html=True)
 
         st.link_button(
-            label="📊 偷看本週大戶部署 (Weekly Analysis)",
+            label=t('weekly_btn'),
             url="https://parisprogram.uk/zh/member/post/RPT-20260131182122129?hash=e71209296eb426dd311b01d899a5615e5c858f30f34d39be3e589d137227761f",
             type="primary",
             use_container_width=True
@@ -225,25 +291,20 @@ elif target_page == "首頁":
 
         st.markdown("---")
 
-        st.subheader("🧠 Week Ahead Strategy")
+        st.subheader(t('week_ahead'))
         with st.container():
             analysis_content = utils.load_weekly_analysis()
-            with st.expander("📖 點擊展開：大市前瞻與劇本", expanded=True):
+            with st.expander(t('expander_title'), expanded=True):
                 st.markdown(analysis_content)
 
     with col_profile:
-        # [FIXED] Profile Image Logic using Base64
         img_path = "static/profile.jpg"
-
-
-        # Function to convert image to base64
         def get_image_base64(path):
             if os.path.exists(path):
                 with open(path, "rb") as f:
                     data = f.read()
                 return f"data:image/jpeg;base64,{base64.b64encode(data).decode()}"
             return "https://ui-avatars.com/api/?name=Paris+Trader&background=0D8ABC&color=fff&size=150"
-
 
         img_src = get_image_base64(img_path)
 
@@ -263,14 +324,13 @@ elif target_page == "首頁":
             </p>
             <a href="https://t.me/ParisTrader" target="_blank">
                 <button style="background-color:#2563EB; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; width:100%; margin-top:10px; font-weight:bold; box-shadow: 0 4px 6px rgba(37,99,235,0.3);">
-                    聯絡我 Contact Me
+                    {t('contact_btn')}
                 </button>
             </a>
         </div>
         """, unsafe_allow_html=True)
 
-# [PAGE] Market Dashboard
-elif target_page == "Market Dashboard":  # 如果 URL 舊連結還在
+elif target_page == "Market Dashboard":
     st.title("Market Dashboard")
     path = os.path.join("MarketDashboard", "main_auto", "output")
     html_content, filename = utils.get_latest_file_content(path)
@@ -279,16 +339,9 @@ elif target_page == "Market Dashboard":  # 如果 URL 舊連結還在
     else:
         st.warning(f"⚠️ No dashboard files found. Error: {filename}")
 
-
-
-
-# [PAGE] Trade Recap (New Section)
 elif target_page == "每日復盤":
-    # 這裡可以選擇性加入 VIP 鎖 (例如只給 VIP 看最新的，免費看舊的)
-    # 目前先設為公開，吸引流量
     recap_page.render_recap_page(utils.load_markdown_with_images)
 
-# [PAGE] Research
 elif target_page == "研究專欄":
     st.title("🦅 Research Paper from Paris")
     st.caption("Institutional Perspectives on Daily Flows")
@@ -320,7 +373,6 @@ elif target_page == "研究專欄":
                     st.markdown(body)
                     st.markdown("---")
 
-# [PAGE] Market Radar
 elif target_page == "大市雷達":
     st.title("📡 Market Radar (大市雷達)")
     st.caption("識別市場轉勢訊號 | Detect Market Reversals")
@@ -353,11 +405,9 @@ elif target_page == "大市雷達":
         else:
             st.warning("⚠️ CFTC Report not found.")
 
-# [PAGE] Stock Hunter
 elif target_page == "美股獵人":
     stock_page.render_stock_page()
 
-# [PAGE] Options
 elif target_page == "期權佈局":
     st.title("🎯 Options Flow Analytics")
     st.caption("跟蹤聰明錢異動 | Track Smart Money Flow")
@@ -406,7 +456,6 @@ elif target_page == "期權佈局":
                         except Exception as e:
                             st.error(f"Error: {e}")
 
-# [PAGE] Futures
 elif target_page == "期貨牛熊":
     st.title("🎢 Futures & Trends")
     st.caption("短線波幅與牛熊重貨區 | Volatility & Heavy Zones")
@@ -441,7 +490,6 @@ elif target_page == "期貨牛熊":
             else:
                 st.warning("⚠️ Report not found")
 
-# [PAGE] Portfolio
 elif target_page == "實戰持倉":
     st.title("💼 Paris Picks (百萬美金實戰倉位)")
     path = "Trade"
@@ -469,8 +517,6 @@ elif target_page == "實戰持倉":
             else:
                 st.warning("⚠️ Report not found.")
 
-# [PAGE] MT5 EA (Fixed Routing)
-# 這裡對應 handle_submenu 回傳的 submenu item name
 elif target_page == "EA 介紹":
     st.title("🤖 MT5 Expert Advisor (EA)")
     html = utils.load_html_file(os.path.join("MT5EA", "ea_marketing.html"))
@@ -479,12 +525,9 @@ elif target_page == "EA 介紹":
     else:
         st.warning("⚠️ Content not found.")
 
-# [PAGE] Education
 elif target_page == "交易學院":
     education_page.render_education_page(utils.check_access_or_show_teaser, utils.load_markdown_with_images)
 
-
-# [PAGE] Legal
 elif target_page == "Legal":
     st.title("📜 Legal & Compliance")
     t1, t2, t3 = st.tabs(["Disclaimer", "Privacy", "Terms"])
@@ -495,7 +538,6 @@ elif target_page == "Legal":
     with t3:
         st.html(utils.load_html_file(os.path.join("Legal", "terms.html")))
 
-# [PAGE] Resources
 elif target_page == "CFD開戶優惠":
     st.title("🔗 Trading Resources")
     html = utils.load_html_file(os.path.join("Resources", "external_links.html"))
@@ -504,7 +546,6 @@ elif target_page == "CFD開戶優惠":
     else:
         st.warning("⚠️ Content not found.")
 
-# [PAGE] Community
 elif target_page == "交易社群":
     html = utils.load_html_file(os.path.join("Community", "community_promo.html"))
     if "File not found" not in html:
@@ -512,7 +553,6 @@ elif target_page == "交易社群":
     else:
         st.error("⚠️ Content not found")
 
-# [PAGE] Membership
 elif target_page == "升級會員":
     st.title("💎 升級機構級數據")
     html = utils.load_html_file(os.path.join("Community", "membership_pricing.html"))
