@@ -414,7 +414,7 @@ elif target_page == "美股獵人":
 elif target_page == "期權佈局":
     st.title("🎯 Options Flow Analytics")
     st.caption("跟蹤聰明錢異動 | Track Smart Money Flow")
-    tab_hk, tab_us, tab_strat = st.tabs(["🇺🇸 美股期權異動", "🛠️ 策略模擬器 Strategy","🇭🇰 港股期權佈局"])
+    tab_us, tab_strat,tab_hk = st.tabs(["🇺🇸 美股期權異動", "🛠️ 策略模擬器 Strategy","🇭🇰 港股期權佈局"])
 
 
     with tab_us:
