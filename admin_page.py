@@ -93,6 +93,9 @@ def render_admin_console():
     # =========================================================
     # TAB 1: AI Content Generator (你原本的代碼)
     # =========================================================
+    # =========================================================
+    # TAB 1: AI Content Generator (已升級 IG Able 版)
+    # =========================================================
     with tab_writer:
         st.subheader("Daily Insight Generator")
         col_input, col_preview = st.columns([1, 1])
@@ -107,24 +110,12 @@ def render_admin_console():
         if "draft_title" not in st.session_state: st.session_state.draft_title = ""
 
         PARIS_PERSONA = """
-        You are Paris Trader. You are a Senior Portfolio Manager and Ex-Prop Trader. You write concise, high-impact market memos for institutional desks.
-
-        ROLE & TONE:
-        - **Identity:** Cynical, sharp, "Smart Money" veteran.
-        - **Tone:** Direct, condensed, judgmental. No fluff.
-        - **Language:** Traditional Chinese (Hong Kong Finance Style) mixed with English financial terminology.
-        - **Style:** Bloomberg Terminal chat style. Short sentences. High information density.
-
-        CRITICAL FORMATTING RULES:
-        1. **NO HEADERS:** No "Key Bullet Points" or "Introduction".
-        2. **STRUCTURE:**
-           - Line 1: Punchy Title.
-           - Line 2: Directional Tag (e.g., 【看淡 - Bearish】).
-           - Body: Seamless blend of facts and analysis.
-
-        CORE OBJECTIVE:
-        **Interpret PnL impact.** Focus on Liquidity, structure, flows, and positioning.
-        """
+            You are Paris Trader. You are a Senior Portfolio Manager and Ex-Prop Trader. You write concise, high-impact market memos for institutional desks.
+            ROLE & TONE:
+            - **Identity:** Cynical, sharp, "Smart Money" veteran.
+            - **Tone:** Direct, condensed, judgmental. No fluff.
+            - **Language:** Traditional Chinese (Hong Kong Finance Style) mixed with English financial terminology.
+            """
 
         if generate_btn and raw_text:
             with st.spinner("Gemini is working..."):
@@ -134,6 +125,7 @@ def render_admin_console():
                     response = model.generate_content(prompt)
                     content = response.text
                     lines = content.split('\n')
+                    # 簡單清理 Title，避免 Markdown 符號
                     title = lines[0].replace('#', '').replace('*', '').strip()
                     body = "\n".join(lines[1:])
                     st.session_state.draft_title = title
@@ -142,20 +134,41 @@ def render_admin_console():
                     st.error(f"API Error: {e}")
 
         with col_preview:
-            final_title = st.text_input("Title", value=st.session_state.draft_title)
-            final_content = st.text_area("Markdown Content", value=st.session_state.draft_content, height=500)
+            st.markdown("### 🛠️ Final Polish (IG Metadata)")
+            final_title = st.text_input("Title (Headline)", value=st.session_state.draft_title)
+
+            # --- 新增：IG 元素選擇器 ---
+            c1, c2 = st.columns(2)
+            with c1:
+                # 標籤：顯示在卡片右上角
+                tag_option = st.selectbox("📌 Category",
+                                          ["Macro Outlook", "Stock Hunter", "Option Flow", "Crypto", "Market Recap"])
+            with c2:
+                # 情緒：顯示顏色或 Emoji
+                sentiment_option = st.selectbox("🐂🐻 Sentiment", ["Bullish (看好)", "Bearish (看淡)", "Neutral (觀望)",
+                                                                 "Warning (預警)"])
+
+            final_content = st.text_area("Markdown Content", value=st.session_state.draft_content, height=400)
 
             if st.button("✅ Upload Insight to GitHub", type="primary"):
                 if final_title and final_content:
                     date_str = datetime.now().strftime("%Y-%m-%d")
                     safe_title = "".join([c if c.isalnum() else "_" for c in final_title])[:50]
                     filename = f"{date_str}_{safe_title}.md"
-                    full_content = f"# {final_title}\n**Date:** {date_str}\n\n{final_content}"
+
+                    # --- 構建包含 Metadata 的 Markdown ---
+                    # 這些 **Key:** 讓 app.py 可以讀取並顯示在漂亮的 UI 上
+                    full_content = (
+                        f"# {final_title}\n"
+                        f"**Date:** {date_str}\n"
+                        f"**Tag:** {tag_option}\n"
+                        f"**Sentiment:** {sentiment_option}\n\n"
+                        f"{final_content}"
+                    )
 
                     try:
                         # Upload Logic
                         git_path = f"DailyInsights/{filename}"
-                        # Check existing
                         _, sha = get_github_file(f"{REPO_OWNER}/{PUBLIC_REPO}", git_path, GITHUB_TOKEN)
 
                         resp = push_to_github(
@@ -170,10 +183,12 @@ def render_admin_console():
 
                         if resp.status_code in [200, 201]:
                             st.success("🎉 Published successfully!")
+                            st.balloons()
                         else:
                             st.error(f"Upload failed: {resp.status_code}")
                     except Exception as e:
                         st.error(f"Error: {e}")
+    
 
     # =========================================================
     # TAB 2: Trade Manager (新功能)
