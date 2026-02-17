@@ -349,35 +349,187 @@ elif target_page == "每日復盤":
     recap_page.render_recap_page(utils.load_markdown_with_images)
 
 elif target_page == "研究專欄":
-    st.title("🦅 Research Paper from Paris")
-    st.caption("Institutional Perspectives on Daily Flows")
+    import html  # 確保引入
+
+    # --- Custom CSS: IG-able Cards & Clean Archive ---
+    st.markdown("""
+    <style>
+        /* 1. Global Card Style */
+        .ig-card-container {
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 2. Featured Card (Top) */
+        .featured-header {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .featured-tag {
+            background-color: #2563EB;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .featured-title {
+            color: #F8FAFC; 
+            font-size: 1.8rem; 
+            font-weight: 800; 
+            margin-top: 10px;
+            line-height: 1.3;
+        }
+
+        /* 3. Archive Expander Styling */
+        .streamlit-expanderHeader {
+            background-color: #1e293b !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            color: #E2E8F0 !important;
+            font-weight: 600 !important;
+            font-size: 1.05rem !important; /* 字體稍微調大 */
+            transition: all 0.2s;
+        }
+        .streamlit-expanderHeader:hover {
+            border-color: #3b82f6 !important;
+            color: #3b82f6 !important;
+            transform: translateY(-2px);
+        }
+        .streamlit-expanderContent {
+            background-color: #0f172a !important;
+            border-radius: 0 0 12px 12px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+            padding: 20px !important;
+        }
+        .streamlit-expanderHeader p {
+            font-size: 1.05rem !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.title("🦅 Paris Research Desk")
+    st.caption("Institutional Insights & Market Memos")
+
     files = sorted(glob.glob(os.path.join("DailyInsights", "*.md")), reverse=True)
 
     if not files:
         st.info("No insights published yet.")
     else:
-        for i, file_path in enumerate(files):
+        # --- Parser Function ---
+        def parse_insight(file_path):
             with open(file_path, "r", encoding="utf-8") as f:
-                content = f.read()
-            lines = content.split('\n')
-            title = lines[0].replace('# ', '')
-            date_display = "Recent"
-            body_start_index = 1
-            for idx, line in enumerate(lines):
-                if "**Date:**" in line:
-                    date_display = line.replace("**Date:**", "").strip()
-                    body_start_index = idx + 1
-                    break
-            body = "\n".join(lines[body_start_index:])
+                raw = f.read()
+            lines = raw.split('\n')
 
-            with st.container():
-                c1, c2 = st.columns([1, 5])
-                c1.markdown(
-                    f"<div style='background: rgba(37,99,235,0.2); padding:5px; border-radius:5px; text-align:center;'>{date_display}</div>",
-                    unsafe_allow_html=True)
-                with c2.expander(f"📄 {title}", expanded=(i == 0)):
-                    st.markdown(body)
-                    st.markdown("---")
+            # Default Metadata
+            # 如果舊文章沒有 Tag，預設顯示 "MEMO"
+            meta = {
+                "title": lines[0].replace('#', '').replace('*', '').strip(),
+                "date": "Recent",
+                "tag": "MEMO",
+                "sentiment": "",
+            }
+
+            body_start = 1
+            for idx, line in enumerate(lines):
+                line = line.strip()
+                if "**Date:**" in line: meta["date"] = line.replace("**Date:**", "").strip()
+
+                # 增強 Tag 讀取：同時兼容 "**Tag:**" 和 "Tag:"
+                if "**Tag:**" in line:
+                    meta["tag"] = line.replace("**Tag:**", "").strip()
+                elif line.startswith("Tag:"):
+                    meta["tag"] = line.replace("Tag:", "").strip()
+
+                if "**Sentiment:**" in line: meta["sentiment"] = line.replace("**Sentiment:**", "").strip()
+
+                # 尋找正文開始處 (跳過 Metadata 區塊)
+                if idx > 0 and idx < 8 and line == "":
+                    body_start = idx + 1
+
+            full_body = "\n".join(lines[body_start:]).strip()
+            return meta, full_body
+
+
+        # ==========================================
+        # 1. FEATURED POST (置頂)
+        # ==========================================
+        latest_file = files[0]
+        meta, full_body = parse_insight(latest_file)
+
+        # 🔥 修改標題為中文
+        st.markdown("### 巴黎炒家-洞察先機 (Paris Trader Prediction)")
+
+        with st.container():
+            # A. Header (HTML Style)
+            icon = "🦅"
+            if "Bullish" in meta['sentiment']:
+                icon = "🐂"
+            elif "Bearish" in meta['sentiment']:
+                icon = "🐻"
+            elif "Warning" in meta['sentiment']:
+                icon = "⚠️"
+
+            header_html = f"""
+            <div class="ig-card-container">
+                <div class="featured-header">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span class="featured-tag">{meta['tag']}</span>
+                        <span style="color:#94a3b8; font-size:0.9rem;">{meta['date']}</span>
+                    </div>
+                    <div class="featured-title">{icon} {meta['title']}</div>
+                    <div style="color:#60A5FA; font-weight:bold; margin-top:5px;">{meta['sentiment']}</div>
+                </div>
+            """
+            st.markdown(header_html, unsafe_allow_html=True)
+
+            # B. Body (Markdown)
+            st.markdown(full_body)
+
+            # C. Footer
+            footer_html = """
+                <div style="margin-top:20px; padding-top:15px; border-top:1px dashed #334155; text-align:right; font-size:0.8rem; color:#64748b;">
+                    @ParisTrader | Institutional Data
+                </div>
+            </div>
+            """
+            st.markdown(footer_html, unsafe_allow_html=True)
+
+        st.markdown("---")
+        st.subheader("📚 過往分析")
+
+        # ==========================================
+        # 2. ARCHIVE GRID (歸檔)
+        # ==========================================
+        if len(files) > 1:
+            cols = st.columns(2)
+
+            for i, file_path in enumerate(files[1:]):
+                meta, full_body = parse_insight(file_path)
+                col = cols[i % 2]
+
+                with col:
+                    # Emoji Logic
+                    emoji_map = {"Bullish": "🟢", "Bearish": "🔴", "Neutral": "⚪", "Warning": "⚠️"}
+                    sent_key = meta['sentiment'].split('(')[0].strip()
+                    status_icon = emoji_map.get(sent_key, "📄")
+
+                    # 🔥 修改這裡：將日期直接加入標題後方
+                    # 格式：[ICON] [標題] ..... [日期]
+                    card_title = f"{status_icon} {meta['title']} 🗓️ {meta['date']}"
+
+                    with st.expander(card_title, expanded=False):
+                        # 展開後顯示詳細標籤
+                        st.caption(f"📌 {meta['tag']} | {meta['sentiment']}")
+                        st.markdown(full_body)
 
 elif target_page == "大市雷達":
     st.title("📡 Market Radar (大市雷達)")
