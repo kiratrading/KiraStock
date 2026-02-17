@@ -415,8 +415,8 @@ elif target_page == "研究專欄":
     </style>
     """, unsafe_allow_html=True)
 
-    st.title("🦅 Paris Research Desk")
-    st.caption("Institutional Insights & Market Memos")
+    st.title("🦅 知世界事，賺世界錢")
+    st.caption("巴黎炒家-洞察先機 (Paris Trader Prediction)")
 
     files = sorted(glob.glob(os.path.join("DailyInsights", "*.md")), reverse=True)
 
@@ -464,9 +464,6 @@ elif target_page == "研究專欄":
         # ==========================================
         latest_file = files[0]
         meta, full_body = parse_insight(latest_file)
-
-        # 🔥 修改標題為中文
-        st.markdown("### 巴黎炒家-洞察先機 (Paris Trader Prediction)")
 
         with st.container():
             # A. Header (HTML Style)
