@@ -168,9 +168,18 @@ def render_admin_console():
             # --- 新增：IG 元素選擇器 ---
             c1, c2 = st.columns(2)
             with c1:
-                # 標籤：顯示在卡片右上角
-                tag_option = st.selectbox("📌 Category",
-                                          ["Macro Outlook", "Stock Hunter", "Option Flow", "Crypto", "Market Recap"])
+                # 這裡更新為你指定的 6 大分類
+                tag_option = st.selectbox(
+                    "📌 Category",
+                    [
+                        "Market Recap 大市覆盤",   # 5. 大市 Recap
+                        "Macro Outlook 大市宏觀",  # 4. 大市風險 / 宏觀
+                        "Stock Focus 股票研究",    # 1. 股票
+                        "Gold 黃金觀點",           # 2. 黃金
+                        "Oil 石油方向",            # 3. 油
+                        "Crypto 加密貨幣"          # 6. Crypto
+                    ]
+                )
             with c2:
                 # 情緒：顯示顏色或 Emoji
                 sentiment_option = st.selectbox("🐂🐻 Sentiment", ["Bullish (看好)", "Bearish (看淡)", "Neutral (觀望)",
