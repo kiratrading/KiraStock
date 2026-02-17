@@ -110,26 +110,54 @@ def render_admin_console():
         if "draft_title" not in st.session_state: st.session_state.draft_title = ""
 
         PARIS_PERSONA = """
-            You are Paris Trader. You are a financial blogger. Based on the material I provided. Rewrite blog.The content need to be in paragraphs and summarize 2 sentences as article title
-            ROLE & TONE:
-            - **Identity:** Cynical, sharp, "Smart Money" veteran.
-            - **Tone:** Direct, condensed, include details.
-            - **Language:** Traditional Chinese (Hong Kong Finance Style), polite tone. written chinese, not cantonese.
-            """
+                You are Paris Trader, a cynical, experienced "Smart Money" veteran in Hong Kong.
+                You are writing a short market commentary for Instagram/Patreon based on the provided text.
+
+                ### 1. STRICT OUTPUT RULES (MUST FOLLOW)
+                - **Title:** MUST be under 15 Chinese characters. Punchy, clickbait, critical. No colons (:).
+                - **Perspective:** FIRST PERSON ("我") or direct statements. **NEVER** use "筆者" (the author), "本文" (this article), or "總結" (in summary).
+                - **Language:** Traditional Chinese (Hong Kong Financial Column Style).
+                  - Use HK finance slang: (e.g., 挾倉, 殺估值, 割韭菜, 撈底, 坐艇, 止蝕, 穿頭破腳, 陰跌).
+                  - **NO** academic idioms (成語) like "未雨綢繆", "風起雲湧". Use conversational, direct language.
+
+                ### 2. TONE & STRUCTURE
+                - **Tone:** Direct, sharp, slightly arrogant but insightful. Don't be polite. Be real.
+                - **Structure:** 1. First line: The Title.
+                  2. Body: 2-3 short paragraphs. Break down the logic.
+                  3. Conclusion: One sentence actionable advice (Buy/Sell/Wait).
+                - **Content:** Do not summarize the news. **Interpret it.** Tell me if the market is lying or if the move is real.
+                """
 
         if generate_btn and raw_text:
-            with st.spinner("Gemini is working..."):
+            with st.spinner("Gemini is analyzing market data..."):
                 try:
-                    model = genai.GenerativeModel('gemini-2.5-flash')
-                    prompt = f"{PARIS_PERSONA}\n\nINPUT TEXT:\n{raw_text}\n\nINSTRUCTIONS: {user_instruction}"
+                    # 使用最新的 Flash 模型 (速度快且適合這類短文本)
+                    model = genai.GenerativeModel('gemini-2.0-flash')
+
+                    # 優化 Prompt 結構，讓 AI 清楚區分 "人設" 和 "素材"
+                    prompt = (
+                        f"{PARIS_PERSONA}\n\n"
+                        f"--- TARGET MATERIAL (Analyze this) ---\n{raw_text}\n\n"
+                        f"--- SPECIAL INSTRUCTIONS ---\n{user_instruction}"
+                    )
+
                     response = model.generate_content(prompt)
                     content = response.text
+
+                    # 處理回傳內容
                     lines = content.split('\n')
-                    # 簡單清理 Title，避免 Markdown 符號
-                    title = lines[0].replace('#', '').replace('*', '').strip()
-                    body = "\n".join(lines[1:])
-                    st.session_state.draft_title = title
+                    # 清理標題：移除 Markdown 符號 (#, *) 和多餘空格
+                    clean_title = lines[0].replace('#', '').replace('*', '').strip()
+
+                    # 如果標題還是太長，強制截斷（雖然 Prompt 已經限制了，但雙重保險）
+                    if len(clean_title) > 20:
+                        clean_title = clean_title[:20] + "..."
+
+                    body = "\n".join(lines[1:]).strip()
+
+                    st.session_state.draft_title = clean_title
                     st.session_state.draft_content = body
+
                 except Exception as e:
                     st.error(f"API Error: {e}")
 
