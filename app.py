@@ -600,13 +600,16 @@ elif target_page == "宏觀專欄":
 
 elif target_page == "試用指標":
     st.title("🔥 獨家指標試用與教學")
-    st.caption("透過量化指標，捕捉最佳進出場!捉頂捉底時機")
+    st.caption("透過量化指標，捕捉最佳進出場時機")
+
     html_content = utils.load_html_file(os.path.join("Community", "indicator.html"))
 
-
     if "File not found" not in html_content:
-        # 開啟 scrolling=True 確保長內容可以完整滾動閱讀
-        components.html(html_content, height=1800, scrolling=True)
+        # 👇 把下面這行刪掉
+        # components.html(html_content, height=1800, scrolling=True)
+
+        # 👇 換成這一行
+        st.markdown(html_content, unsafe_allow_html=True)
     else:
         st.error("⚠️ 找不到 indicator.html，請檢查檔案是否已上傳或路徑是否正確。")
 
