@@ -1,0 +1,483 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ParisTrader Alpha Scan</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+            body { background-color: #1B2138; color: #E0E6ED; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; }
+            .container { max_width: 1200px; margin: 0 auto; }
+            header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #2D3A5C; padding-bottom: 15px; }
+            h1 { margin: 0; font-size: 24px; color: #fff; letter-spacing: 1px; }
+            .timestamp { color: #8D99AE; font-size: 14px; }
+
+            /* Cards Section */
+            .cards-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
+            .card { background: #232D45; border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 1px solid #2D3A5C; }
+            .card-header { font-size: 20px; font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 15px; color: #fff; }
+            .price { color: #00E396; }
+            .card-body p { margin: 5px 0; font-size: 14px; color: #B0BEC5; }
+            .signal { font-size: 18px; font-weight: bold; margin-top: 10px; color: #FEB019; }
+
+            /* Table Section */
+            table { width: 100%; border-collapse: collapse; background: #232D45; border-radius: 8px; overflow: hidden; }
+            th { background: #181E30; color: #8D99AE; text-align: left; padding: 15px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+            td { padding: 15px; border-bottom: 1px solid #2D3A5C; font-size: 14px; }
+            tr:hover { background: #2D3A5C; }
+
+            .tag { background: #2D3A5C; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin-right: 4px; color: #90A4AE; }
+            .highlight-vol { color: #FEB019; font-weight: bold; }
+
+            .footer { margin-top: 40px; text-align: center; color: #5c6b7f; font-size: 12px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Reddit <span style="color:#00E396">Sentiment</span> ALPHA</h1>
+                <div class="timestamp">Generated: 2026-04-03 15:04:22</div>
+            </header>
+
+            <div class="cards-container">
+                
+        <div class="card">
+            <div class="card-header">DTE <span class="price">$148.04</span></div>
+            <div class="card-body">
+                <p>Mentions: <strong>24</strong></p>
+                <p>Momentum: <strong style="color: #FF4560">-24.0</strong></p>
+                <p class="signal">❄️ COOLING OFF</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">SPY <span class="price">$655.83</span></div>
+            <div class="card-body">
+                <p>Mentions: <strong>24</strong></p>
+                <p>Momentum: <strong style="color: #FF4560">-18.0</strong></p>
+                <p class="signal">❄️ COOLING OFF</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">RR <span class="price">$2.06</span></div>
+            <div class="card-body">
+                <p>Mentions: <strong>18</strong></p>
+                <p>Momentum: <strong style="color: #FF4560">-2.0</strong></p>
+                <p class="signal">❄️ COOLING OFF</p>
+            </div>
+        </div>
+        
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Price</th>
+                        <th>Signal</th>
+                        <th>Mentions (24h)</th>
+                        <th>Momentum</th>
+                        <th>Sentiment</th>
+                        <th>Vol Spike</th>
+                        <th>Sources</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td><strong>DTE</strong></td>
+            <td>$148.04</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>24</td>
+            <td style="color: #FF4560">-24.0</td>
+            <td style="color: #00E396">0.29</td>
+            <td class="">0.98x</td>
+            <td><span class='tag'>options</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>SPY</strong></td>
+            <td>$655.83</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>24</td>
+            <td style="color: #FF4560">-18.0</td>
+            <td style="color: #00E396">0.04</td>
+            <td class="">0.65x</td>
+            <td><span class='tag'>StockMarket</span>, <span class='tag'>stocks</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>RR</strong></td>
+            <td>$2.06</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>18</td>
+            <td style="color: #FF4560">-2.0</td>
+            <td style="color: #00E396">0.18</td>
+            <td class="">0.93x</td>
+            <td><span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>WTI</strong></td>
+            <td>$3.15</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>11</td>
+            <td style="color: #FF4560">-7.0</td>
+            <td style="color: #00E396">0.41</td>
+            <td class="">1.05x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>pennystocks</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>QQQ</strong></td>
+            <td>$584.98</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>10</td>
+            <td style="color: #FF4560">-8.0</td>
+            <td style="color: #00E396">0.44</td>
+            <td class="">0.67x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>StockMarket</span>, <span class='tag'>options</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>MRVL</strong></td>
+            <td>$107.11</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>6</td>
+            <td style="color: #FF4560">-6.0</td>
+            <td style="color: #00E396">0.41</td>
+            <td class="">0.75x</td>
+            <td><span class='tag'>Shortsqueeze</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>NVDA</strong></td>
+            <td>$177.39</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>10</td>
+            <td style="color: #FF4560">-10.0</td>
+            <td style="color: #00E396">0.52</td>
+            <td class="">0.78x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>options</span>, <span class='tag'>Shortsqueeze</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>SMC</strong></td>
+            <td>$29.67</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>12</td>
+            <td style="color: #FF4560">-10.0</td>
+            <td style="color: #00E396">0.42</td>
+            <td class="">0.50x</td>
+            <td><span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>TSLA</strong></td>
+            <td>$360.59</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>8</td>
+            <td style="color: #FF4560">-6.0</td>
+            <td style="color: #00E396">0.02</td>
+            <td class="">1.19x</td>
+            <td><span class='tag'>StockMarket</span>, <span class='tag'>stocks</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>MSFT</strong></td>
+            <td>$373.46</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>10</td>
+            <td style="color: #FF4560">-10.0</td>
+            <td style="color: #00E396">0.37</td>
+            <td class="">0.66x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>StockMarket</span>, <span class='tag'>options</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>PL</strong></td>
+            <td>$35.88</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>8</td>
+            <td style="color: #FF4560">-8.0</td>
+            <td style="color: #00E396">0.43</td>
+            <td class="">1.37x</td>
+            <td><span class='tag'>options</span>, <span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>META</strong></td>
+            <td>$574.46</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>6</td>
+            <td style="color: #FF4560">-6.0</td>
+            <td style="color: #00E396">0.38</td>
+            <td class="">0.55x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>options</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>NBIS</strong></td>
+            <td>$108.82</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-4.0</td>
+            <td style="color: #00E396">0.83</td>
+            <td class="">0.87x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>YOU</strong></td>
+            <td>$51.36</td>
+            <td style="color: #B0BEC5;">NEUTRAL</td>
+            <td>5</td>
+            <td style="color: #00E396">+1.0</td>
+            <td style="color: #00E396">0.33</td>
+            <td class="">0.56x</td>
+            <td><span class='tag'>StockMarket</span>, <span class='tag'>pennystocks</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ET</strong></td>
+            <td>$18.93</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>6</td>
+            <td style="color: #FF4560">-6.0</td>
+            <td style="color: #00E396">0.14</td>
+            <td class="">0.80x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>StockMarket</span>, <span class='tag'>options</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>VCX</strong></td>
+            <td>$113.00</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>6</td>
+            <td style="color: #FF4560">-6.0</td>
+            <td style="color: #00E396">0.37</td>
+            <td class="">0.55x</td>
+            <td><span class='tag'>options</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>IBKR</strong></td>
+            <td>$67.74</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>7</td>
+            <td style="color: #FF4560">-7.0</td>
+            <td style="color: #00E396">0.19</td>
+            <td class="">0.70x</td>
+            <td><span class='tag'>options</span>, <span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ES</strong></td>
+            <td>$69.47</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>6</td>
+            <td style="color: #FF4560">-2.0</td>
+            <td style="color: #00E396">0.35</td>
+            <td class="">0.93x</td>
+            <td><span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ARE</strong></td>
+            <td>$43.23</td>
+            <td style="color: #B0BEC5;">NEUTRAL</td>
+            <td>4</td>
+            <td style="color: #00E396">+2.0</td>
+            <td style="color: #00E396">0.08</td>
+            <td class="">1.29x</td>
+            <td><span class='tag'>pennystocks</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>IT</strong></td>
+            <td>$157.85</td>
+            <td style="color: #B0BEC5;">NEUTRAL</td>
+            <td>5</td>
+            <td style="color: #FF4560">-1.0</td>
+            <td style="color: #00E396">0.33</td>
+            <td class="">0.69x</td>
+            <td><span class='tag'>StockMarket</span>, <span class='tag'>pennystocks</span>, <span class='tag'>stocks</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>AIXI</strong></td>
+            <td>$0.13</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>6</td>
+            <td style="color: #FF4560">-2.0</td>
+            <td style="color: #00E396">0.35</td>
+            <td class="highlight-vol">2.14x</td>
+            <td><span class='tag'>pennystocks</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>RSI</strong></td>
+            <td>$22.68</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>7</td>
+            <td style="color: #FF4560">-3.0</td>
+            <td style="color: #00E396">0.29</td>
+            <td class="">1.03x</td>
+            <td><span class='tag'>options</span>, <span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>MA</strong></td>
+            <td>$493.44</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>5</td>
+            <td style="color: #FF4560">-3.0</td>
+            <td style="color: #00E396">0.88</td>
+            <td class="">0.75x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>wallstreetbets</span>, <span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>BTBD</strong></td>
+            <td>$1.89</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-2.0</td>
+            <td style="color: #00E396">0.33</td>
+            <td class="highlight-vol">1.89x</td>
+            <td><span class='tag'>pennystocks</span>, <span class='tag'>Shortsqueeze</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>NKE</strong></td>
+            <td>$44.19</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-4.0</td>
+            <td style="color: #00E396">0.37</td>
+            <td class="">1.29x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>options</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>ASTS</strong></td>
+            <td>$92.62</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>5</td>
+            <td style="color: #FF4560">-5.0</td>
+            <td style="color: #00E396">0.20</td>
+            <td class="">1.17x</td>
+            <td><span class='tag'>stocks</span>, <span class='tag'>wallstreetbets</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>AAOI</strong></td>
+            <td>$103.91</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>5</td>
+            <td style="color: #FF4560">-5.0</td>
+            <td style="color: #00E396">0.41</td>
+            <td class="">1.49x</td>
+            <td><span class='tag'>stocks</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>BE</strong></td>
+            <td>$135.63</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>5</td>
+            <td style="color: #FF4560">-3.0</td>
+            <td style="color: #00E396">0.42</td>
+            <td class="">0.55x</td>
+            <td><span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>RKLB</strong></td>
+            <td>$67.73</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-4.0</td>
+            <td style="color: #00E396">0.20</td>
+            <td class="">1.27x</td>
+            <td><span class='tag'>stocks</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>VTR</strong></td>
+            <td>$83.27</td>
+            <td style="color: #008FFB;">👀 TRENDING UP</td>
+            <td>4</td>
+            <td style="color: #00E396">+4.0</td>
+            <td style="color: #00E396">0.43</td>
+            <td class="">0.96x</td>
+            <td><span class='tag'>stocks</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>AVAV</strong></td>
+            <td>$184.36</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-4.0</td>
+            <td style="color: #00E396">0.57</td>
+            <td class="">0.72x</td>
+            <td><span class='tag'>stocks</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>SKYQ</strong></td>
+            <td>$5.10</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-4.0</td>
+            <td style="color: #00E396">0.65</td>
+            <td class="highlight-vol">4.99x</td>
+            <td><span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>OI</strong></td>
+            <td>$10.35</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-4.0</td>
+            <td style="color: #00E396">0.34</td>
+            <td class="">0.76x</td>
+            <td><span class='tag'>options</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>API</strong></td>
+            <td>$3.66</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-2.0</td>
+            <td style="color: #00E396">0.75</td>
+            <td class="">0.61x</td>
+            <td><span class='tag'>options</span>, <span class='tag'>Daytrading</span></td>
+        </tr>
+        
+        <tr>
+            <td><strong>EONR</strong></td>
+            <td>$0.90</td>
+            <td style="color: #90A4AE;">❄️ COOLING OFF</td>
+            <td>4</td>
+            <td style="color: #FF4560">-4.0</td>
+            <td style="color: #FF4560">-0.01</td>
+            <td class="">1.23x</td>
+            <td><span class='tag'>pennystocks</span></td>
+        </tr>
+        
+                </tbody>
+            </table>
+
+            <div class="footer">
+                <p>Paris Algorithm v2.1 | Data source: Reddit API | For Research Purposes Only</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    
