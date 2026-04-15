@@ -96,10 +96,6 @@ translations = {
 }
 
 
-def t(key):
-    return translations[st.session_state['language']].get(key, key)
-
-
 # Helper Function: Handle Submenu
 def handle_submenu(key_name, options, icons, default_url_sub=None):
     default_sub_index = 0
@@ -162,15 +158,12 @@ with st.sidebar:
         "CFD開戶優惠": "🎁 開戶專屬優惠",
         "試用指標": "🔥 試用指標教學",
         "首頁": "首頁",
-        "股票研究": "股票研究",
-        "宏觀專欄": "宏觀專欄",
         "大市雷達": "大市雷達",
-        "實戰持倉": "實戰持倉",
+        "個人持倉": "個人持倉",
         "美股獵人": "美股獵人",
         "期權佈局": "期權佈局",
         "期貨牛熊": "期貨牛熊",
-        "自動鈔能力": "自動鈔能力",
-        "交易學院": "交易學院"
+        "自動鈔能力": "自動鈔能力"
     }
 
     nav_map_en = {
@@ -178,19 +171,17 @@ with st.sidebar:
         "CFD開戶優惠": "🎁 Broker Offer",
         "試用指標": "🔥 Trial Indicator",
         "首頁": "Home",
-        "股票研究": "Daily Recap",
-        "宏觀專欄": "Research",
         "大市雷達": "Market Radar",
-        "實戰持倉": "Portfolio",
+        "個人持倉": "Portfolio",
         "美股獵人": "Stock Hunter",
         "期權佈局": "Option Flow",
         "期貨牛熊": "Futures & Vol",
-        "自動鈔能力": "Auto-Trading (EA)",
-        "交易學院": "Academy"
+        "自動鈔能力": "Auto-Trading (EA)"
     }
 
     current_nav_map = nav_map_zh if st.session_state['language'] == 'zh' else nav_map_en
     display_options = list(current_nav_map.values())
+    
     # --- Navigation Logic Fix ---
     query_params = st.query_params
     # 獲取 URL 參數，默認為 "首頁"
@@ -211,9 +202,9 @@ with st.sidebar:
     selected_display = option_menu(
         menu_title=t("nav_title"),
         options=display_options,
-        # 圖標對應：gem(VIP), gift(優惠), lightning-charge(指標), house(首頁)...
-        icons=["gem", "gift", "lightning-charge", "house", "journal-bookmark", "globe", "activity", "briefcase",
-               "crosshair", "layers", "graph-up-arrow", "robot", "mortarboard"],
+        # 圖標對應：gem(VIP), gift(優惠), lightning-charge(指標), house(首頁), activity(大市), briefcase(持倉), crosshair(獵人), layers(期權), graph-up-arrow(牛熊), robot(自動)
+        icons=["gem", "gift", "lightning-charge", "house", "activity", "briefcase",
+               "crosshair", "layers", "graph-up-arrow", "robot"],
         menu_icon="compass",
         default_index=main_default_index,
         key="main_nav_key",
@@ -271,7 +262,7 @@ if url_main_page == "Legal" and selected_nav == "首頁":
 # ==========================================
 # 3. Security Check
 # ==========================================
-locked_pages = []
+locked_pages = ["美股獵人"] # 美股獵人整個 page 必須登入會員才可看
 if target_page in locked_pages:
     if not utils.check_access_or_show_teaser(target_page):
         st.stop()
@@ -381,14 +372,12 @@ elif target_page == "首頁":
     with col_profile:
         img_path = "static/profile.jpg"
 
-
         def get_image_base64(path):
             if os.path.exists(path):
                 with open(path, "rb") as f:
                     data = f.read()
                 return f"data:image/jpeg;base64,{base64.b64encode(data).decode()}"
             return "https://ui-avatars.com/api/?name=Paris+Trader&background=0D8ABC&color=fff&size=150"
-
 
         img_src = get_image_base64(img_path)
 
@@ -417,187 +406,6 @@ elif target_page == "Market Dashboard":
         components.html(html_content, height=2500, scrolling=True)
     else:
         st.warning(f"⚠️ No dashboard files found. Error: {filename}")
-
-elif target_page == "股票研究":
-    recap_page.render_recap_page(utils.load_markdown_with_images)
-
-elif target_page == "宏觀專欄":
-    # --- Custom CSS: Mobile Optimized & Clean Archive ---
-    st.markdown("""
-    <style>
-        /* 1. Global Card Style - 縮小 Padding */
-        .ig-card-container {
-            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px; /* 稍微減小圓角 */
-            padding: 15px; /* 從 20px 減小到 15px */
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 2. Featured Card (Top) */
-        .featured-header {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px; /* 減小底部間距 */
-            margin-bottom: 10px;
-        }
-        .featured-tag {
-            background-color: #2563EB;
-            color: white;
-            padding: 3px 10px; /* 縮小 Tag */
-            border-radius: 15px;
-            font-size: 0.75rem; /* 縮小字體 */
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .featured-title {
-            color: #F8FAFC; 
-            font-size: 1.25rem; /* 從 1.8rem 改為 1.25rem (適合手機) */
-            font-weight: 700; 
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
-        /* 手機版特別優化 (螢幕寬度小於 600px) */
-        @media (max-width: 600px) {
-            .featured-title { font-size: 1.1rem; } /* 手機上標題更小 */
-            .ig-card-container { padding: 12px; }  /* 手機上內距更緊湊 */
-        }
-
-        /* 3. Archive Expander Styling */
-        .streamlit-expanderHeader {
-            background-color: #1e293b !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 8px !important;
-            color: #E2E8F0 !important;
-            font-weight: 600 !important;
-            font-size: 0.95rem !important; /* 列表標題字體縮小 */
-            transition: all 0.2s;
-            padding: 10px !important; /* 縮小列表高度 */
-        }
-        .streamlit-expanderHeader:hover {
-            border-color: #3b82f6 !important;
-            color: #3b82f6 !important;
-        }
-        .streamlit-expanderContent {
-            background-color: #0f172a !important;
-            border-radius: 0 0 8px 8px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: none;
-            padding: 15px !important;
-        }
-        .streamlit-expanderHeader p {
-            font-size: 0.95rem !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
-
-    st.title("🦅 知世界事，賺世界錢")
-    st.caption("巴黎炒家-洞察先機 (Paris Trader Prediction)")
-
-    files = sorted(glob.glob(os.path.join("DailyInsights", "*.md")), reverse=True)
-
-    if not files:
-        st.info("No insights published yet.")
-    else:
-        # --- Parser Function ---
-        def parse_insight(file_path):
-            with open(file_path, "r", encoding="utf-8") as f:
-                raw = f.read()
-            lines = raw.split('\n')
-
-            meta = {
-                "title": lines[0].replace('#', '').replace('*', '').strip(),
-                "date": "Recent",
-                "tag": "MEMO",
-                "sentiment": "",
-            }
-
-            body_start = 1
-            for idx, line in enumerate(lines):
-                line = line.strip()
-                if "**Date:**" in line: meta["date"] = line.replace("**Date:**", "").strip()
-                if "**Tag:**" in line:
-                    meta["tag"] = line.replace("**Tag:**", "").strip()
-                elif line.startswith("Tag:"):
-                    meta["tag"] = line.replace("Tag:", "").strip()
-                if "**Sentiment:**" in line: meta["sentiment"] = line.replace("**Sentiment:**", "").strip()
-                if idx > 0 and idx < 8 and line == "":
-                    body_start = idx + 1
-
-            full_body = "\n".join(lines[body_start:]).strip()
-            return meta, full_body
-
-
-        # ==========================================
-        # 1. FEATURED POST (置頂)
-        # ==========================================
-        latest_file = files[0]
-        meta, full_body = parse_insight(latest_file)
-
-        with st.container():
-            icon = "🦅"
-            if "Bullish" in meta['sentiment']:
-                icon = "🐂"
-            elif "Bearish" in meta['sentiment']:
-                icon = "🐻"
-            elif "Warning" in meta['sentiment']:
-                icon = "⚠️"
-
-            # 🔥🔥🔥 MODIFIED HEADER: 小字體 & 緊湊排版 🔥🔥🔥
-            header_html = f"""
-            <div class="ig-card-container">
-                <div class="featured-header">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="featured-tag">{meta['tag']}</span>
-                        <span style="
-                            color: #94a3b8; /* 顏色改淡一點，不搶眼 */
-                            font-size: 0.85rem; /* 從 1.3rem 改為 0.85rem */
-                            font-weight: 600; 
-                        ">
-                            🗓️ {meta['date']}
-                        </span>
-                    </div>
-                    <div class="featured-title">{icon} {meta['title']}</div>
-                    <div style="color:#60A5FA; font-weight:bold; margin-top:5px; font-size: 0.85rem;">{meta['sentiment']}</div>
-                </div>
-            """
-            st.markdown(header_html, unsafe_allow_html=True)
-            st.markdown(full_body)
-
-            footer_html = """
-                <div style="margin-top:15px; padding-top:10px; border-top:1px dashed #334155; text-align:right; font-size:0.75rem; color:#64748b;">
-                    @ParisTrader | Institutional Data
-                </div>
-            </div>
-            """
-            st.markdown(footer_html, unsafe_allow_html=True)
-
-        st.markdown("---")
-        st.subheader("📚 過往分析")
-
-        # ==========================================
-        # 2. ARCHIVE GRID (歸檔)
-        # ==========================================
-        if len(files) > 1:
-            cols = st.columns(2)
-            for i, file_path in enumerate(files[1:]):
-                meta, full_body = parse_insight(file_path)
-                col = cols[i % 2]
-                with col:
-                    emoji_map = {"Bullish": "🟢", "Bearish": "🔴", "Neutral": "⚪", "Warning": "⚠️"}
-                    sent_key = meta['sentiment'].split('(')[0].strip()
-                    status_icon = emoji_map.get(sent_key, "📄")
-
-                    # 列表標題也縮小日期顯示
-                    card_title = f"{status_icon} {meta['title']} <span style='font-size:0.8em; color:#9ca3af'>({meta['date']})</span>"
-
-                    expander_label = f"{status_icon} {meta['title']} | {meta['date']}"
-
-                    with st.expander(expander_label, expanded=False):
-                        st.caption(f"📌 {meta['tag']} | {meta['sentiment']}")
-                        st.markdown(full_body)
-
 
 elif target_page == "試用指標":
     st.title("🔥 獨家指標試用與教學")
@@ -671,6 +479,7 @@ elif target_page == "大市雷達":
             st.warning("⚠️ CFTC Report not found.")
 
 elif target_page == "美股獵人":
+    # 已在 locked_pages 檢查防線被保護，僅會員才能進入此處
     stock_page.render_stock_page()
 
 elif target_page == "期權佈局":
@@ -758,8 +567,8 @@ elif target_page == "期貨牛熊":
             else:
                 st.warning("⚠️ Report not found")
 
-elif target_page == "實戰持倉":
-    st.title("💼 Paris Picks (百萬美金實戰倉位)")
+elif target_page == "個人持倉":
+    st.title("💼 Paris Picks (百萬美金個人倉位)")
     path = "Trade"
     tab1, tab2 = st.tabs(["📉 Stock Journal", "📊 Option Desk"])
     is_vip = st.session_state.get("authentication_status", False)
@@ -772,8 +581,9 @@ elif target_page == "實戰持倉":
                 components.html(html_content, height=1200, scrolling=True)
             else:
                 st.info("👀 Preview Mode (Showing Top Holdings Only)")
-                components.html(html_content, height=800, scrolling=False)
+                # 將解鎖提示移至圖表上方
                 utils.check_access_or_show_teaser("Stock Journal Full Access", description="Unlock full trade journal.")
+                components.html(html_content, height=800, scrolling=False)
         else:
             st.warning("⚠️ Report not found.")
     with tab2:
@@ -791,9 +601,6 @@ elif target_page == "EA 介紹":
         st.html(html_content) # ✅ 讓系統自動適應高度
     else:
         st.warning("⚠️ Content not found.")
-
-elif target_page == "交易學院":
-    education_page.render_education_page(utils.check_access_or_show_teaser, utils.load_markdown_with_images)
 
 elif target_page == "Legal":
     st.title("📜 Legal & Compliance")
