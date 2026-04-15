@@ -169,8 +169,8 @@ with st.sidebar:
         "美股獵人": "美股獵人",
         "期權佈局": "期權佈局",
         "期貨牛熊": "期貨牛熊",
-        "自動鈔能力": "自動鈔能力",
-        "交易學院": "交易學院" # 放回交易學院
+        "EA程式回測": "EA程式回測",
+        "交易學院": "交易學院"
     }
 
     nav_map_en = {
@@ -183,8 +183,8 @@ with st.sidebar:
         "美股獵人": "Stock Hunter",
         "期權佈局": "Option Flow",
         "期貨牛熊": "Futures & Vol",
-        "自動鈔能力": "Auto-Trading (EA)",
-        "交易學院": "Academy" # 放回交易學院
+        "EA程式回測": "EA Backtesting",
+        "交易學院": "Academy"
     }
 
     current_nav_map = nav_map_zh if st.session_state['language'] == 'zh' else nav_map_en
@@ -204,7 +204,7 @@ with st.sidebar:
     except ValueError:
         main_default_index = 0
 
-    # 2. 渲染 Option Menu (新增 mortarboard 圖示對應學院)
+    # 2. 渲染 Option Menu
     selected_display = option_menu(
         menu_title=t("nav_title"),
         options=display_options,
@@ -236,7 +236,7 @@ with st.sidebar:
             st.query_params["page"] = target_page
 
     # 處理 EA 子菜單邏輯
-    if selected_nav == "自動鈔能力":
+    if selected_nav == "EA程式回測":
         st.caption("AUTOMATED TRADING")
         ea_options_display = ["EA 介紹"] if st.session_state['language'] == 'zh' else ["EA Intro"]
         target_sub = handle_submenu("sub_ea", ea_options_display, ["robot"], url_sub_page)
@@ -261,7 +261,8 @@ if url_main_page == "Legal" and selected_nav == "首頁":
 # ==========================================
 # 3. Security Check
 # ==========================================
-locked_pages = ["美股獵人", "交易學院"] # 加入交易學院，必須登入會員才可看
+# 確保美股獵人在進入時就嚴格阻擋
+locked_pages = ["美股獵人"] 
 if target_page in locked_pages:
     if not utils.check_access_or_show_teaser(target_page):
         st.stop()
@@ -378,7 +379,6 @@ elif target_page == "首頁":
 
         img_src = get_image_base64(img_path)
 
-        # 改為 Derivative Expert
         st.markdown(f"""
 <div class="profile-card">
 <img src="{img_src}" width="120" style="border-radius:50%; border: 3px solid #2563EB;">
@@ -583,9 +583,11 @@ elif target_page == "EA 介紹":
     else:
         st.warning("⚠️ Content not found.")
 
-# 將交易學院路由加回來
+# 交易學院：嚴格鎖定內容，未解鎖前只會顯示標題與大鎖頭提示
 elif target_page == "交易學院":
-    education_page.render_education_page(utils.check_access_or_show_teaser, utils.load_markdown_with_images)
+    st.title("🎓 交易學院 (Academy)")
+    if utils.check_access_or_show_teaser("交易學院", description="此為會員專屬內容，解鎖進階交易教學與量化策略。"):
+        education_page.render_education_page(utils.check_access_or_show_teaser, utils.load_markdown_with_images)
 
 elif target_page == "Legal":
     st.title("📜 Legal & Compliance")
