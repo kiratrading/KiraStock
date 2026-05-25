@@ -56,11 +56,11 @@ def check_access_or_show_teaser(page_name, teaser_image_url=None, description=No
     with c2:
         st.markdown("#### 🚀 Not a Member?")
         st.markdown("""
-        <div style="background: rgba(37, 99, 235, 0.1); padding: 20px; border-radius: 10px; border: 1px solid #2563EB;">
+        <div style="background: rgba(37, 99, 235, 0.1); padding: 20px; border-radiushttps://t.me/kira_stocknote: 10px; border: 1px solid #2563EB;">
             <p style="font-size: 0.9em; margin-bottom: 15px;">
                 Unlock this tool and get full access to Stock DNA, Option Flows, and my personal trade portfolio.
             </p>
-            <a href="https://parisprogram.uk/zh/member-dash/plans/" target="_blank" style="text-decoration: none;">
+            <a href="https://t.me/kira_stocknote" target="_blank" style="text-decoration: none;">
                 <button style="width: 100%; background-color: #fbbf24; color: black; border: none; padding: 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
                     Get VIP Access Now
                 </button>
