@@ -164,13 +164,13 @@ with st.sidebar:
         "新世界大門": "首頁",
         "股票研究": "股票研究",
         # "宏觀專欄": "宏觀專欄",
-        "Ｌ的監控網": "大市雷達",
-        "實戰持倉": "實戰持倉",
+        "Ｌ的監控網": "Ｌ的監控網",
+        "股票名單": "股票名單",
         "美股獵捕": "美股獵捕",
         "期權佈局": "期權佈局",
         "期貨牛熊": "期貨牛熊",
-        "死神EA": "自動印U能力",
-        "交易學院": "交易學院"
+        "死神EA": "死神EA",
+        "交易法則": "交易法則"
     }
 
     nav_map_en = {
@@ -180,13 +180,13 @@ with st.sidebar:
         "新世界大門": "Home",
         "股票研究": "Daily Recap",
         # "宏觀專欄": "Research",
-        "Ｌ的監控網": "Market Radar",
-        "實戰持倉": "Portfolio",
+        "Ｌ的監控網": "L's Market Radar",
+        "股票名單": "Portfolio",
         "美股獵捕": "Stock Hunter",
         "期權佈局": "Option Flow",
         "期貨牛熊": "Futures & Vol",
         "死神EA": "Auto-Trading (EA)",
-        "交易學院": "Academy"
+        "交易法則": "Academy"
     }
 
     current_nav_map = nav_map_zh if st.session_state['language'] == 'zh' else nav_map_en
@@ -219,7 +219,9 @@ with st.sidebar:
             "icon": {"color": "#9CA3AF", "font-size": "15px"},
             "nav-link": {"font-size": "15px", "text-align": "left", "margin": "5px", "color": "#D1D5DB",
                          "--hover-color": "#1F2937"},
-            "nav-link-selected": {"background-color": "#2563EB", "color": "#FFFFFF", "font-weight": "600"},
+            # 將高亮顏色改為暗血紅色 (#7f1d1d) 配白字，帶出危險與制裁的感覺
+            "nav-link-selected": {"background-color": "#7f1d1d", "color": "#FFFFFF", "font-weight": "600",
+                                  "border-left": "3px solid #dc2626"},
         }
     )
 
@@ -732,8 +734,8 @@ elif target_page == "期貨牛熊":
             else:
                 st.warning("⚠️ Report not found")
 
-elif target_page == "實戰持倉":
-    st.title("💼 Kira Picks (百萬美金實戰倉位)")
+elif target_page == "股票名單":
+    st.title("💼 Kira Stock Name (實戰倉位)")
     path = "Trade"
     tab1, tab2 = st.tabs(["📉 Stock Journal", "📊 Option Desk"])
     is_vip = st.session_state.get("authentication_status", False)
@@ -766,9 +768,9 @@ elif target_page == "EA 介紹":
     else:
         st.warning("⚠️ Content not found.")
 
-elif target_page == "交易學院":
-    st.title("🎓 交易學院 (Academy)")
-    if utils.check_access_or_show_teaser("交易學院", description="此為會員專屬內容，解鎖進階量化策略與教學。"):
+elif target_page == "交易法則":
+    st.title("🎓 交易法則 (Academy)")
+    if utils.check_access_or_show_teaser("交易法則", description="此為會員專屬內容，解鎖進階量化策略與教學。"):
         education_page.render_education_page(utils.check_access_or_show_teaser, utils.load_markdown_with_images)
 
 
