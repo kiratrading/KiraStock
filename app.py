@@ -186,11 +186,12 @@ with st.sidebar:
     nav_map_zh = {
         # "升級會員": "💎 升級會員 (VIP)",
         # "CFD開戶優惠": "🎁 開戶專屬優惠",
-        "試用死神之眼": "🔥 試用指標教學",
         "新世界大門": "新世界大門",
+        "試用死神之眼": "試用死神之眼",
+        "Ｌ的監控網": "Ｌ的監控網",
         "股票研究": "股票研究",
         # "宏觀專欄": "宏觀專欄",
-        "Ｌ的監控網": "Ｌ的監控網",
+
         "股票名單": "股票名單",
         "美股獵捕": "美股獵捕",
         "期權佈局": "期權佈局",
@@ -202,11 +203,11 @@ with st.sidebar:
     nav_map_en = {
         # "升級會員": "💎 Go VIP",
         # "CFD開戶優惠": "🎁 Broker Offer",
-        "試用死神之眼": "🔥 Trial Indicator",
         "新世界大門": "Home",
+        "試用死神之眼": "🔥 Trial Indicator",
+        "Ｌ的監控網": "L's Market Radar",
         "股票研究": "Daily Recap",
         # "宏觀專欄": "Research",
-        "Ｌ的監控網": "L's Market Radar",
         "股票名單": "Portfolio",
         "美股獵捕": "Stock Hunter",
         "期權佈局": "Option Flow",
