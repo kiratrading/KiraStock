@@ -65,4 +65,4 @@
 
 ---
 
-> **© 2026 ParisTrader (Jacky Ho)** > *Disclaimer: 本文件僅供教學與策略邏輯分享，不構成任何投資建議。*
+> **© 2026 Kira (Jacky Ho)** > *Disclaimer: 本文件僅供教學與策略邏輯分享，不構成任何投資建議。*

@@ -35,7 +35,7 @@
 
 ---
 
-## 3. Paris 進階筆記：指數 vs 個股
+## 3. Kira 進階筆記：指數 vs 個股
 
 在華爾街，最經典的 Dispersion Trading 其實是 **「指數 vs 成份股」** 的博弈：
 

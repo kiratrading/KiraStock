@@ -79,4 +79,4 @@
 
 ---
 
-> **© 2026 ParisTrader (Jacky Ho)** > *Disclaimer: 因子數據僅供參考，歷史回測不代表未來表現。*
+> **© 2026 Kira (Jacky Ho)** > *Disclaimer: 因子數據僅供參考，歷史回測不代表未來表現。*

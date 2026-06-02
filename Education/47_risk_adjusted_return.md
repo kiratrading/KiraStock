@@ -51,7 +51,7 @@
 
 ## 3. 市場選擇：為何棄港投美？(Market Selection)
 
-很多學員問我：「Paris，你是香港人，為什麼你的主力全在美股，少碰了港股？」
+很多學員問我：「Kira，你是香港人，為什麼你的主力全在美股，少碰了港股？」
 
 這不是感情問題，這是**勝率（Probability）與效率（Efficiency）**的問題。
 
@@ -99,9 +99,9 @@
 
 ---
 
-## 5. 工欲善其事：我的量化工具箱 (The Paris Toolkit)
+## 5. 工欲善其事：我的量化工具箱 (The Kira Toolkit)
 
-有了心態和選股邏輯，最後你需要的是**精準的執行工具**。在我的 ParisTrader 終端機（網頁版）裡，我開發了兩個核心工具來解決散戶最頭痛的問題：
+有了心態和選股邏輯，最後你需要的是**精準的執行工具**。在我的 Kira 終端機（網頁版）裡，我開發了兩個核心工具來解決散戶最頭痛的問題：
 
 ### A. 比較兩隻股票？用【Fama-French Model (Stock DNA)】
 當你在 NVDA 和 AMD，或者 TSLA 和 BYD 之間猶豫時，不要靠「感覺」。
@@ -128,10 +128,10 @@
 讓我們看一張圖表，這也是我希望大家印在腦海裡的畫面：
 
 ![Risk Adjusted Return Chart](Education/images/risk_adjusted_return.png)
-*(圖表：高波動賭徒策略 vs. Paris 穩健複利策略的 10 年資產對比)*
+*(圖表：高波動賭徒策略 vs. Kira 穩健複利策略的 10 年資產對比)*
 
 * 🔴 **紅線 (賭徒)：** 追求短期暴利，大起大落，最終可能歸零。
-* 🟢 **綠線 (Paris 策略)：** 每年穩健 20%（複利效應），資產穩步增長，且過程安心。
+* 🟢 **綠線 (Kira 策略)：** 每年穩健 20%（複利效應），資產穩步增長，且過程安心。
 
 ---
 
@@ -153,6 +153,6 @@
 拒絕賭博心態，慢慢來比較快，痛過你才會知道我在說什麼。一起擁抱 Risk-Adjusted Return，這才是正確的股票投資生存之道。
 
 ---
-**Paris Trader**
-*Ex-IB Derivative Trader | Founder of Paris Capital Group*
+**Kira**
+*Ex-IB Derivative Trader | Founder of Kira Capital Group*
 tags: [Trading Psychology, Risk Management, Institutional Investing, 13F, US Market]
