@@ -1,4 +1,4 @@
-# 巴黎教室：何為波動性均注 - Risk Adjusted Average Bet Size
+# Kira教室：何為波動性均注 - Risk Adjusted Average Bet Size
 
 **Category:** Risk Management | **Level:** Essential
 
@@ -41,7 +41,7 @@ $$\text{建議手數} = \frac{\text{帳戶資金} \times \text{風險百分比}}
 
 ## 📺 觀看教學影片
 
-[![巴黎教室影片](https://img.youtube.com/vi/rk2yCWg0Zzk/0.jpg)](https://www.youtube.com/watch?v=rk2yCWg0Zzk)
+[![Kira教室影片](https://img.youtube.com/vi/rk2yCWg0Zzk/0.jpg)](https://www.youtube.com/watch?v=rk2yCWg0Zzk)
 
 > **想保護你的 1 萬港幣帳戶？快看影片，學會如何在市場風浪中穩穩前行！**
 

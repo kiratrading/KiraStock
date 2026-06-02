@@ -16,7 +16,7 @@
 ### 📊 三大趨勢核心
 為了避免單一指標的盲點，Trend Table 綜合了以下三種邏輯：
 1.  **EMA Crossover (指數移動平均線交叉)**：捕捉傳統趨勢方向。
-2.  **VV (Volatility Volume)**：ParisTrader 獨家動能指標，判斷資金流向。
+2.  **VV (Volatility Volume)**：Kira 獨家動能指標，判斷資金流向。
 3.  **Smart Trend (ST)**：基於 ATR 的趨勢過濾線。
 
 ---

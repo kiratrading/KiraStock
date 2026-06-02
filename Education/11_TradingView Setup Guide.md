@@ -5,7 +5,7 @@
 ---
 
 ## 執行摘要
-本影片是針對 ParisTrader 用戶的 TradingView 基礎設置教學。講者詳細演示了從零開始建立觀察清單 (Watchlist)、購買即時數據 (Real-time Data)、選擇合適的訂閱方案，到如何安裝並設置專用的交易指標（如 Fate, Double Tap, Trend Table 等）。影片重點在於確保用戶能夠正確配置「四圖流」操作環境（M1, M3, M5, M15）。
+本影片是針對 Kira 用戶的 TradingView 基礎設置教學。講者詳細演示了從零開始建立觀察清單 (Watchlist)、購買即時數據 (Real-time Data)、選擇合適的訂閱方案，到如何安裝並設置專用的交易指標（如 Fate, Double Tap, Trend Table 等）。影片重點在於確保用戶能夠正確配置「四圖流」操作環境（M1, M3, M5, M15）。
 
 ---
 

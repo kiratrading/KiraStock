@@ -3,7 +3,7 @@
 <div style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 10px; border-left: 5px solid #3B82F6; margin-bottom: 20px;">
     <h3 style="margin:0; color: #3B82F6;">🔐 指標權限獲取</h3>
     <p style="margin-top:10px; color: #e2e8f0;">
-        此為 ParisTrader 內部專用指標。如需開通權限，請在 Discord 或 Telegram 聯繫 <strong>777</strong>。
+        此為 Kira 內部專用指標。如需開通權限，請在 Discord 或 Telegram 聯繫 <strong>777</strong>。
     </p>
     <a href="https://www.tradingview.com/script/s4pUEDq2-ST-Table/" target="_blank">
         <button style="background-color:#3B82F6; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:bold;">

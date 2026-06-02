@@ -1,11 +1,11 @@
-# 影片摘要：巴黎炒家週會課 - 別讓情緒毀了你的交易
+# 影片摘要：Kira炒家週會課 - 別讓情緒毀了你的交易
 
 <iframe width="100%" height="450" src="https://www.youtube.com/embed/7l4s61uaWtk?start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ---
 
 ## 執行摘要
-講者（Paris）探討了情緒控制與穩定獲利之間的關鍵聯繫。他觀察到，許多交易員雖然擁有有效的工具和指標，但成績依然飄忽不定（例如連贏幾天卻在一天內全輸回去），這往往歸咎於「情緒陷阱」。本次週會重點在於釐清「日內交易」與「波段交易」的區別、堅守策略，以及如何管理市場波動帶來的心理衝擊。
+講者（Kira）探討了情緒控制與穩定獲利之間的關鍵聯繫。他觀察到，許多交易員雖然擁有有效的工具和指標，但成績依然飄忽不定（例如連贏幾天卻在一天內全輸回去），這往往歸咎於「情緒陷阱」。本次週會重點在於釐清「日內交易」與「波段交易」的區別、堅守策略，以及如何管理市場波動帶來的心理衝擊。
 
 ---
 

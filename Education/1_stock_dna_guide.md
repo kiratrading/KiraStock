@@ -80,7 +80,7 @@
 ### 🚀 立即體驗
 請在左側選單點擊 **Stock** > **Stock DNA** 開始使用。
 
-[👉 點擊前往 Stock DNA 工具](https://paristrader-terminal.streamlit.app/?page=Stock)
+[👉 點擊前往 Stock DNA 工具](https://kira-terminal.streamlit.app/?page=Stock)
 
 ---
 

@@ -5,7 +5,7 @@
 這套工具就像是您的雷達探測器。在金融市場，價格可以作假，但真金白銀堆出來的成交量騙不了人。
 **當熱力圖變紅時，就是大戶留下腳印的時候。**
 
-[👉 點擊前往 TradingView 腳本頁面](https://www.tradingview.com/script/XLaWZNsU-Institutional-Volume-Z-Score-Heatmap-Paris-Trader/)
+[👉 點擊前往 TradingView 腳本頁面](https://www.tradingview.com/script/XLaWZNsU-Institutional-Volume-Z-Score-Heatmap-Kira/)
 
 ---
 
