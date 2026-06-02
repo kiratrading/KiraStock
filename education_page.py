@@ -235,13 +235,13 @@ def render_education_page(check_access_func, load_markdown_func):
             },
             "fate_indicator": {
                 "title": "第03課 | [EA] 趨勢導航：Fate 系統自動繪製買賣點" if is_zh else "Lesson 03 | [EA] Fate Trend Indicator Guide",
-                "file": "6_paris_fate_indicator_guide.md",
+                "file": "6_kira_fate_indicator_guide.md",
                 "icon": "🧭",
                 "desc": "讓 Fate 系統透過波動率運算，告訴你精準的 TP/SL 位置。" if is_zh else "Let Fate system calculate precise TP/SL levels using volatility models."
             },
             "gold_excalibur": {
                 "title": "第04課 | [EA] 黃金現金流：Excalibur 自動馬丁策略" if is_zh else "Lesson 04 | [EA] Gold Excalibur Strategy",
-                "file": "5_paris_gold_excalibur.md",
+                "file": "5_kira_gold_excalibur.md",
                 "icon": "⚔️",
                 "desc": "專為 XAUUSD 設計的動態網格策略。" if is_zh else "Dynamic grid strategy designed specifically for XAUUSD."
             },
@@ -323,9 +323,9 @@ def render_education_page(check_access_func, load_markdown_func):
             },
 
             # --- Phase 4: System (VIP) ---
-            "paris_manual": {
-                "title": "第17課 | [系統] KiraTrader 實戰手冊：四圖流操盤法 🔒" if is_zh else "Lesson 17 | [System] Kira Manual: Quad-Chart Method 🔒",
-                "file": "15_paris_system_manual.md",
+            "kira_manual": {
+                "title": "第17課 | [系統] Kira 實戰手冊：四圖流操盤法 🔒" if is_zh else "Lesson 17 | [System] Kira Manual: Quad-Chart Method 🔒",
+                "file": "15_kira_system_manual.md",
                 "icon": "📘",
                 "desc": "在單邊行情中吃到最長的一段。" if is_zh else "Catch the longest trend in one-sided markets."
             },
