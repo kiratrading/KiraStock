@@ -52,7 +52,7 @@ Risk Department (風控部門) 會用 Totem 作為基準來挑戰交易員 (Trad
 
 ---
 
-## 4. Paris 內行話
+## 4. Kira 內行話
 
 > 「如果連 Totem 都唔知，就唔好扮 Trader。之前飲酒見唔少人吹噓自己係 Trader，一問 Totem 啞口無言，會笑死人。」
 

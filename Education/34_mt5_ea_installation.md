@@ -3,7 +3,7 @@
 <iframe width="100%" height="450" src="https://www.youtube.com/embed/5cZwqK4psOA?start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 **影片標題：** 如何將EA file安裝到MT5上!
-**頻道：** ParisTrader (巴黎炒家)
+**頻道：** Kira (Kira炒家)
 
 ---
 
@@ -18,7 +18,7 @@
 1.  **複製檔案**：先複製您的 EA 檔案 (通常是 `.ex5` 或 `.mq5` 格式)。
 2.  **開啟數據資料夾**：在 MT5 左上角選單點擊 `File (文件)` -> `Open Data Folder (打開數據文件夾)`。
 3.  **進入路徑**：雙擊 `MQL5` 資料夾 -> 雙擊 `Experts` 資料夾。
-4.  **貼上**：將檔案貼上到 `Experts` 資料夾中 (建議可以新建一個資料夾分類，例如 `Paris_EA`)。
+4.  **貼上**：將檔案貼上到 `Experts` 資料夾中 (建議可以新建一個資料夾分類，例如 `Kira_EA`)。
 5.  **刷新**：回到 MT5 介面，在左側 `Navigator (導航)` 面板的 `Experts` 上按右鍵 -> `Refresh (刷新)`。您應該能看到剛貼上的 EA。
 
 ### 2. 啟動 EA
