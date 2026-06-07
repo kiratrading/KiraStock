@@ -364,39 +364,39 @@ elif target_page == "新世界大門":
 
         # 完全重構的 HTML 排版，不再使用圖片，改用「案卷 / 筆記規則」風格，徹底消除 ParisTrader 痕跡
         notebook_proof_html = """
-        <style>
-        .execution-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        .execution-row { background: #050505; border: 1px solid #2a0000; border-left: 4px solid #8b0000; padding: 15px 20px; display: flex; flex-direction: column; position: relative; }
-        .execution-row::before { content: ''; position: absolute; top: 0; right: 0; width: 30px; height: 30px; background: linear-gradient(225deg, #030303 50%, #1a0000 50%); border-bottom-left-radius: 4px; }
-        .exec-time { font-family: 'Courier New', monospace; color: #8b0000; font-size: 0.85rem; font-weight: bold; letter-spacing: 1px; }
-        .exec-target { font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin: 5px 0; }
-        .exec-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; color: #a39b8a; font-size: 1.1rem; border-left: 2px solid #4a0000; padding-left: 10px; margin-top: 10px; }
-        .exec-status { position: absolute; right: 20px; bottom: 15px; color: #4a0000; font-family: 'Cinzel', serif; font-size: 0.8rem; border: 1px solid #4a0000; padding: 2px 8px; text-transform: uppercase; }
-        </style>
+<style>
+.execution-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.execution-row { background: #050505; border: 1px solid #2a0000; border-left: 4px solid #8b0000; padding: 15px 20px; display: flex; flex-direction: column; position: relative; }
+.execution-row::before { content: ''; position: absolute; top: 0; right: 0; width: 30px; height: 30px; background: linear-gradient(225deg, #030303 50%, #1a0000 50%); border-bottom-left-radius: 4px; }
+.exec-time { font-family: 'Courier New', monospace; color: #8b0000; font-size: 0.85rem; font-weight: bold; letter-spacing: 1px; }
+.exec-target { font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin: 5px 0; }
+.exec-quote { font-family: 'Cormorant Garamond', serif; font-style: italic; color: #a39b8a; font-size: 1.1rem; border-left: 2px solid #4a0000; padding-left: 10px; margin-top: 10px; }
+.exec-status { position: absolute; right: 20px; bottom: 15px; color: #4a0000; font-family: 'Cinzel', serif; font-size: 0.8rem; border: 1px solid #4a0000; padding: 2px 8px; text-transform: uppercase; }
+</style>
 
-        <div class="execution-list">
-            <div class="execution-row">
-                <div class="exec-time">CASE 01 - PRE-EARNINGS INTERCEPT</div>
-                <div class="exec-target">NVIDIA (NVDA)</div>
-                <div class="exec-quote">「這速度太誇張了... 新聞發布前，大戶的期權流向早就寫好了劇本。直接捕獲。」</div>
-                <div class="exec-status">Executed</div>
-            </div>
-            
-            <div class="execution-row">
-                <div class="exec-time">CASE 02 - FOMC REVERSAL</div>
-                <div class="exec-target">SPX 0DTE</div>
-                <div class="exec-quote">「死神Bot即時提示，精準避開假突破，把握 FOMC 殺機。」</div>
-                <div class="exec-status">Terminated</div>
-            </div>
+<div class="execution-list">
+<div class="execution-row">
+<div class="exec-time">CASE 01 - PRE-EARNINGS INTERCEPT</div>
+<div class="exec-target">NVIDIA (NVDA)</div>
+<div class="exec-quote">「這速度太誇張了... 新聞發布前，大戶的期權流向早就寫好了劇本。直接捕獲。」</div>
+<div class="exec-status">Executed</div>
+</div>
 
-            <div class="execution-row">
-                <div class="exec-time">CASE 03 - TREND INITIATION</div>
-                <div class="exec-target">XAU/USD (GOLD)</div>
-                <div class="exec-quote">「執行力與紀律的展現 - 運用Ｌ的監控網，在血洗前成功捕捉波段起漲點。」</div>
-                <div class="exec-status">Purged</div>
-            </div>
-        </div>
-        """
+<div class="execution-row">
+<div class="exec-time">CASE 02 - FOMC REVERSAL</div>
+<div class="exec-target">SPX 0DTE</div>
+<div class="exec-quote">「死神Bot即時提示，精準避開假突破，把握 FOMC 殺機。」</div>
+<div class="exec-status">Terminated</div>
+</div>
+
+<div class="execution-row">
+<div class="exec-time">CASE 03 - TREND INITIATION</div>
+<div class="exec-target">XAU/USD (GOLD)</div>
+<div class="exec-quote">「執行力與紀律的展現 - 運用Ｌ的監控網，在血洗前成功捕捉波段起漲點。」</div>
+<div class="exec-status">Purged</div>
+</div>
+</div>
+"""
         st.markdown(notebook_proof_html, unsafe_allow_html=True)
 
 
