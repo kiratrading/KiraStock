@@ -813,6 +813,6 @@ elif target_page == "升級會員":
 st.markdown("""
 <div class="custom-footer">
     <p>© 2026 Kira Trader. All rights reserved.<br><span style="font-size: 0.75rem; color: #6B7280;">Not financial advice.</span></p>
-    <p><a href="https://t.me/Ho777ggg" target="_blank">@kira_stocknote on TG</a> | <a href="?page=Legal" target="_self" style="color: #6B7280; text-decoration: none;">Legal</a></p>
+    <p><a href="https://t.me/kira_stocknote" target="_blank">@kira_stocknote on TG</a> | <a href="?page=Legal" target="_self" style="color: #6B7280; text-decoration: none;">Legal</a></p>
 </div>
 """, unsafe_allow_html=True)
