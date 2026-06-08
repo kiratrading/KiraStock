@@ -41,11 +41,13 @@ st.set_page_config(
 if 'language' not in st.session_state:
     st.session_state['language'] = 'zh'
 
+
 def toggle_language():
     if st.session_state['language'] == 'zh':
         st.session_state['language'] = 'en'
     else:
         st.session_state['language'] = 'zh'
+
 
 # 翻譯字典
 translations = {
@@ -93,8 +95,10 @@ translations = {
     }
 }
 
+
 def t(key):
     return translations[st.session_state['language']].get(key, key)
+
 
 # Helper Function: Handle Submenu
 def handle_submenu(key_name, options, icons, default_url_sub=None):
@@ -107,11 +111,14 @@ def handle_submenu(key_name, options, icons, default_url_sub=None):
 
     return option_menu(
         menu_title=None, options=options, icons=icons, default_index=default_sub_index,
-        styles={"container": {"padding": "0!important", "background-color": "transparent", "border": "1px solid #4a0000", "border-radius": "0px"},
-                "nav-link": {"font-size": "14px", "margin": "3px", "--hover-color": "#2a0000", "color": "#a39b8a"},
-                "nav-link-selected": {"background-color": "#4a0000", "color": "#fff"}},
+        styles={
+            "container": {"padding": "0!important", "background-color": "transparent", "border": "1px solid #4a0000",
+                          "border-radius": "0px"},
+            "nav-link": {"font-size": "14px", "margin": "3px", "--hover-color": "#2a0000", "color": "#a39b8a"},
+            "nav-link-selected": {"background-color": "#4a0000", "color": "#fff"}},
         key=key_name
     )
+
 
 # ==========================================
 # GOTHIC / DEATH NOTE CSS THEME
@@ -256,7 +263,7 @@ with st.sidebar:
 
     current_nav_map = nav_map_zh if st.session_state['language'] == 'zh' else nav_map_en
     display_options = list(current_nav_map.values())
-    
+
     query_params = st.query_params
     url_main_page = query_params.get("page", "新世界大門")
 
@@ -269,7 +276,8 @@ with st.sidebar:
     selected_display = option_menu(
         menu_title=t("nav_title"),
         options=display_options,
-        icons=["book", "eye", "radar", "droplet", "pen", "crosshair", "layers", "bar-chart-steps", "cpu", "info-circle"],
+        icons=["book", "eye", "radar", "droplet", "pen", "crosshair", "layers", "bar-chart-steps", "cpu",
+               "info-circle"],
         menu_icon="book-half",
         default_index=main_default_index,
         key="main_nav_key",
@@ -279,7 +287,8 @@ with st.sidebar:
             "nav-link": {"font-size": "15px", "text-align": "left", "margin": "2px 0", "color": "#d1c9b8",
                          "border-radius": "0", "font-family": "'Cormorant Garamond', serif",
                          "--hover-color": "#1a0000"},
-            "nav-link-selected": {"background-color": "#1a0000", "color": "#8b0000", "font-weight": "700", "border-left": "4px solid #8b0000", "border-radius": "0"},
+            "nav-link-selected": {"background-color": "#1a0000", "color": "#8b0000", "font-weight": "700",
+                                  "border-left": "4px solid #8b0000", "border-radius": "0"},
         }
     )
 
@@ -324,7 +333,7 @@ if target_page == "SecretAdmin":
 elif target_page == "新世界大門":
     # 徹底反轉排版與視覺：左邊是Kira檔案，右邊是主體。
     col_profile, col_main = st.columns([0.35, 0.65], gap="large")
-    
+
     with col_profile:
         # 移除舊照，使用無面孔/純文字暗黑風格 Avatar
         img_src = "https://ui-avatars.com/api/?name=K&background=000000&color=8b0000&size=150&font-size=0.6&rounded=false"
@@ -359,7 +368,8 @@ elif target_page == "新世界大門":
             """, unsafe_allow_html=True)
 
         st.markdown("<br><br>", unsafe_allow_html=True)
-        st.markdown("<h3 style='border-bottom: 1px solid #4a0000; padding-bottom: 10px;'>🩸 The Judgement Records</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='border-bottom: 1px solid #4a0000; padding-bottom: 10px;'>🩸 The Judgement Records</h3>",
+                    unsafe_allow_html=True)
         st.caption("見證名字被寫下的瞬間 (Market Executions)")
 
         # 完全重構的 HTML 排版，不再使用圖片，改用「案卷 / 筆記規則」風格，徹底消除 ParisTrader 痕跡
@@ -448,7 +458,8 @@ elif target_page == "Ｌ的監控網":
 
     with tab_breadth:
         st.subheader("Market Breadth")
-        html_content, _ = utils.get_latest_file_content(os.path.join("MarketDashboard", "MarketBreadth"), "market_breadth_*.html")
+        html_content, _ = utils.get_latest_file_content(os.path.join("MarketDashboard", "MarketBreadth"),
+                                                        "market_breadth_*.html")
         if html_content:
             if is_vip:
                 components.html(html_content, height=2200, scrolling=True)
@@ -494,9 +505,31 @@ elif target_page == "期貨量圖":
     st.title("🎢 Futures Formations")
     st.caption("短線波幅與牛熊重貨區 | Volatility & Heavy Zones")
     tab_vol, tab_vp, tab_cbbc = st.tabs(["⚡ 日內波幅 (Volatility)", "📊 成交分佈 (Volume Profile)", "🐻 牛熊陣型 (CBBC)"])
-    # 內部邏輯與原版相同，受到全局深色 CSS 影響
-    pass
 
+    with tab_vol:
+        # Replace with your actual folder and file pattern for Volatility
+        html_str, _ = utils.get_latest_file_content("Futures", "volatility_*.html")
+        if html_str:
+            components.html(html_str, height=1200, scrolling=True)
+        else:
+            st.warning("⚠️ Volatility report not found.")
+
+    with tab_vp:
+        # Replace with your actual folder and file pattern for Volume Profile
+        html_str, _ = utils.get_latest_file_content("Futures", "volume_profile_*.html")
+        if html_str:
+            components.html(html_str, height=1200, scrolling=True)
+        else:
+            st.warning("⚠️ Volume Profile report not found.")
+
+    with tab_cbbc:
+        # Replace with your actual folder and file pattern for CBBC
+        html_str, _ = utils.get_latest_file_content("Futures", "cbbc_*.html")
+        if html_str:
+            components.html(html_str, height=1200, scrolling=True)
+        else:
+            st.warning("⚠️ CBBC report not found.")
+            
 elif target_page == "股票名單":
     st.title("📓 The Note (實戰倉位)")
     path = "Trade"
@@ -506,7 +539,8 @@ elif target_page == "股票名單":
         html_content, filename = utils.get_latest_file_content(path, "trade_record_*.html")
         if html_content:
             st.caption(f"📅 Report: {filename}")
-            if is_vip: components.html(html_content, height=1200, scrolling=True)
+            if is_vip:
+                components.html(html_content, height=1200, scrolling=True)
             else:
                 st.info("👁️ Preview Mode")
                 components.html(html_content, height=800, scrolling=False)
