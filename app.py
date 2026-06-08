@@ -508,7 +508,7 @@ elif target_page == "期貨量圖":
 
     with tab_vol:
         # Replace with your actual folder and file pattern for Volatility
-        html_str, _ = utils.get_latest_file_content("Futures", "volatility_*.html")
+        html_str, _ = utils.get_latest_file_content("MarketDashboard", "Intraday_Volatility*.html")
         if html_str:
             components.html(html_str, height=1200, scrolling=True)
         else:
@@ -516,7 +516,7 @@ elif target_page == "期貨量圖":
 
     with tab_vp:
         # Replace with your actual folder and file pattern for Volume Profile
-        html_str, _ = utils.get_latest_file_content("Futures", "volume_profile_*.html")
+        html_str, _ = utils.get_latest_file_content("VP", "volume_profile_*.html")
         if html_str:
             components.html(html_str, height=1200, scrolling=True)
         else:
@@ -524,12 +524,12 @@ elif target_page == "期貨量圖":
 
     with tab_cbbc:
         # Replace with your actual folder and file pattern for CBBC
-        html_str, _ = utils.get_latest_file_content("Futures", "cbbc_*.html")
+        html_str, _ = utils.get_latest_file_content("MarketDashboard", "HSI_CBBC*.html")
         if html_str:
             components.html(html_str, height=1200, scrolling=True)
         else:
             st.warning("⚠️ CBBC report not found.")
-            
+
 elif target_page == "股票名單":
     st.title("📓 The Note (實戰倉位)")
     path = "Trade"
