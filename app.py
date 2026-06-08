@@ -266,6 +266,7 @@ with st.sidebar:
 
     query_params = st.query_params
     url_main_page = query_params.get("page", "新世界大門")
+    url_sub_page = query_params.get("sub_page", None)  # <--- ADD THIS LINE
 
     try:
         main_default_index = list(nav_map_zh.keys()).index(url_main_page)
